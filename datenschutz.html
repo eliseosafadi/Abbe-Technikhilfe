@@ -9,101 +9,137 @@
 <link rel="icon" href="data:,">
 <style>
   :root {
-    --papier: #FBF9F4;
-    --tinte: #1C1C1A;
-    --blau: #1A4A78;
-    --linie: rgba(28, 28, 26, 0.2);
+    --grund: #FFFFFF;
+    --flaeche: #F5F5F7;
+    --tinte: #1D1D1F;
+    --neben: #6E6E73;
+    --blau: #0066CC;
+    --blau-hell: #0071E3;
+    --linie: #D2D2D7;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-text-size-adjust: 100%; }
   body {
-    background: var(--papier);
+    background: var(--grund);
     color: var(--tinte);
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 19px;
-    line-height: 1.6;
+    line-height: 1.55;
   }
-  .spalte { max-width: 690px; margin: 0 auto; padding: 0 20px; }
-  a { color: var(--blau); text-decoration: underline; text-underline-offset: 2px; }
-  a:hover { text-decoration-thickness: 2px; }
-  a:focus { outline: 2px solid var(--blau); outline-offset: 3px; }
-  h1, h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; overflow-wrap: break-word; hyphens: auto; }
-  h1 { font-size: clamp(28px, 9vw, 38px); line-height: 1.18; margin: 32px 0 18px; }
-  h2 { font-size: clamp(24px, 7.5vw, 28px); line-height: 1.25; margin: 28px 0 10px; }
   p { margin: 14px 0 0; }
   ul { margin: 14px 0 0 24px; }
   li { margin-top: 6px; }
-  .zeitungskopf { text-align: center; padding: 30px 0 20px; border-bottom: 2px solid var(--tinte); }
-  .kopf-meta { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
-  .zeitungstitel {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-weight: 700;
-    font-size: clamp(28px, 6vw, 38px);
-    line-height: 1.08;
-    margin: 8px 0 0;
+  a { color: var(--blau); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus { outline: 2px solid var(--blau); outline-offset: 3px; }
+  h1, h2 { font-weight: 700; letter-spacing: -0.01em; overflow-wrap: break-word; hyphens: auto; }
+  h1 { font-size: clamp(32px, 8vw, 48px); line-height: 1.1; margin: 44px 0 6px; }
+  h2 { font-size: 24px; line-height: 1.2; margin: 34px 0 4px; }
+  .leiste {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--linie);
   }
-  .zeitungstitel a { color: var(--tinte); text-decoration: none; }
-  .zeitungstitel a:hover { text-decoration: underline; }
-  main { padding-bottom: 24px; }
-  footer { border-top: 2px solid var(--tinte); text-align: center; padding: 22px 0 40px; margin-top: 40px; }
+  @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .leiste {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+  }
+  .leiste-innen {
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 64px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .marke { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .marke a { color: var(--tinte); text-decoration: none; display: inline-block; padding: 13px 0; }
+  .marke a:hover { text-decoration: underline; }
+  .pille-klein {
+    display: inline-block;
+    background: var(--blau);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 15px 22px;
+    border-radius: 980px;
+    text-align: center;
+    text-decoration: none;
+  }
+  .pille-klein:hover { background: var(--blau-hell); text-decoration: none; }
+  .lese { max-width: 704px; margin: 0 auto; padding: 0 22px 64px; }
+  footer { background: var(--flaeche); border-top: 1px solid var(--linie); text-align: center; padding: 36px 0 48px; }
   footer a { display: inline-block; padding: 12px 10px; min-width: 48px; }
+  @media (max-width: 360px) {
+    .marke { font-size: 16px; }
+    .pille-klein { font-size: 15px; padding: 15px 16px; }
+  }
   @media print {
+    .leiste { display: none; }
     body { background: #FFFFFF; color: #000000; font-size: 12pt; }
     a { color: #000000; text-decoration: none; }
-    .zeitungskopf, footer { border-color: #000000; }
+    footer { background: #FFFFFF; border-top: 1pt solid #000000; }
   }
 </style>
 </head>
 <body>
-<div class="spalte">
 
-  <header class="zeitungskopf">
-    <p class="kopf-meta">Lübeck &amp; Umgebung · Hausbesuche · Mo–Sa</p>
-    <p class="zeitungstitel"><a href="index.html">Abbe Technikhilfe</a></p>
-  </header>
+<nav class="leiste">
+  <div class="leiste-innen">
+    <span class="marke"><a href="index.html">Abbe Technikhilfe</a></span>
+    <a class="pille-klein" href="tel:+49451XXXXXXX">Anrufen</a>
+  </div>
+</nav>
 
-  <main>
-    <h1>Datenschutzerklärung</h1>
+<main class="lese">
+  <h1>Datenschutzerklärung</h1>
 
-    <h2>Verantwortlicher</h2>
-    <!-- TODO: Namen und Anschrift eintragen (identisch mit dem Impressum). -->
-    <p>
-      Eliseo Abbe · Abbe Technikhilfe<br>
-      [ADRESSE], [PLZ] Lübeck<br>
-      Telefon: [0451-NUMMER] · E-Mail: [E-MAIL]
-    </p>
+  <h2>Verantwortlicher</h2>
+  <!-- TODO: Namen und Anschrift eintragen (identisch mit dem Impressum). -->
+  <p>
+    Eliseo Abbe · Abbe Technikhilfe<br>
+    [ADRESSE], [PLZ] Lübeck<br>
+    Telefon: [0451-NUMMER] · E-Mail: [E-MAIL]
+  </p>
 
-    <h2>Keine Cookies, kein Tracking</h2>
-    <p>Diese Seite setzt keine Cookies, verwendet keine Analyse-Werkzeuge und lädt keine Inhalte von fremden Servern. Es werden keine Daten zu Werbezwecken erhoben oder weitergegeben.</p>
+  <h2>Keine Cookies, kein Tracking</h2>
+  <p>Diese Seite setzt keine Cookies, verwendet keine Analyse-Werkzeuge und lädt keine Inhalte von fremden Servern. Es werden keine Daten zu Werbezwecken erhoben oder weitergegeben.</p>
 
-    <h2>Server-Logdateien</h2>
-    <!-- TODO: Hosting-Anbieter mit Name und Anschrift eintragen und prüfen,
-         ob ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO) besteht.
-         Speicherdauer der Logdateien beim Anbieter erfragen und hier nennen. -->
-    <p>Beim Aufruf dieser Seite speichert der Hosting-Anbieter [TODO: Anbieter eintragen] automatisch technische Zugriffsdaten (z. B. IP-Adresse, Datum und Uhrzeit, aufgerufene Seite). Diese Daten sind für den sicheren Betrieb der Seite erforderlich (Art. 6 Abs. 1 lit. f DSGVO) und werden nach [TODO: Speicherdauer] gelöscht.</p>
+  <h2>Server-Logdateien</h2>
+  <!-- TODO: Hosting-Anbieter mit Name und Anschrift eintragen und prüfen,
+       ob ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO) besteht.
+       Speicherdauer der Logdateien beim Anbieter erfragen und hier nennen. -->
+  <p>Beim Aufruf dieser Seite speichert der Hosting-Anbieter [TODO: Anbieter eintragen] automatisch technische Zugriffsdaten (z. B. IP-Adresse, Datum und Uhrzeit, aufgerufene Seite). Diese Daten sind für den sicheren Betrieb der Seite erforderlich (Art. 6 Abs. 1 lit. f DSGVO) und werden nach [TODO: Speicherdauer] gelöscht.</p>
 
-    <h2>Kontaktaufnahme</h2>
-    <p>Wenn Sie mich anrufen oder mir eine E-Mail schreiben, verwende ich Ihre Angaben (z. B. Name, Telefonnummer, Anliegen) ausschließlich zur Bearbeitung Ihrer Anfrage und zur Terminabstimmung (Art. 6 Abs. 1 lit. b DSGVO). Die Daten werden gelöscht, sobald sie dafür nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten (z. B. für Rechnungen) bestehen.</p>
+  <h2>Kontaktaufnahme</h2>
+  <p>Wenn Sie mich anrufen oder mir eine E-Mail schreiben, verwende ich Ihre Angaben (z. B. Name, Telefonnummer, Anliegen) ausschließlich zur Bearbeitung Ihrer Anfrage und zur Terminabstimmung (Art. 6 Abs. 1 lit. b DSGVO). Die Daten werden gelöscht, sobald sie dafür nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten (z. B. für Rechnungen) bestehen.</p>
 
-    <h2>Ihre Rechte</h2>
-    <p>Sie haben nach der DSGVO insbesondere das Recht auf:</p>
-    <ul>
-      <li>Auskunft über die zu Ihrer Person gespeicherten Daten (Art. 15),</li>
-      <li>Berichtigung unrichtiger Daten (Art. 16),</li>
-      <li>Löschung (Art. 17) und Einschränkung der Verarbeitung (Art. 18),</li>
-      <li>Datenübertragbarkeit (Art. 20),</li>
-      <li>Widerspruch gegen die Verarbeitung (Art. 21).</li>
-    </ul>
-    <p>Sie können sich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. Zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD), Kiel.</p>
-    <!-- TODO: Anschrift des ULD ergänzen oder prüfen, ob der Hinweis so ausreicht. -->
+  <h2>Ihre Rechte</h2>
+  <p>Sie haben nach der DSGVO insbesondere das Recht auf:</p>
+  <ul>
+    <li>Auskunft über die zu Ihrer Person gespeicherten Daten (Art. 15),</li>
+    <li>Berichtigung unrichtiger Daten (Art. 16),</li>
+    <li>Löschung (Art. 17) und Einschränkung der Verarbeitung (Art. 18),</li>
+    <li>Datenübertragbarkeit (Art. 20),</li>
+    <li>Widerspruch gegen die Verarbeitung (Art. 21).</li>
+  </ul>
+  <p>Sie können sich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. Zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD), Kiel.</p>
+  <!-- TODO: Anschrift des ULD ergänzen oder prüfen, ob der Hinweis so ausreicht. -->
 
-    <p>Stand: [TODO: Datum eintragen]</p>
-  </main>
+  <p>Stand: [TODO: Datum eintragen]</p>
+</main>
 
-  <footer>
-    <p><a href="index.html">Zur Startseite</a> · <a href="impressum.html">Impressum</a></p>
-  </footer>
+<footer>
+  <p><a href="index.html">Zur Startseite</a> · <a href="impressum.html">Impressum</a></p>
+</footer>
 
-</div>
 </body>
 </html>
