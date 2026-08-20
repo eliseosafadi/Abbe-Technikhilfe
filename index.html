@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!-- TODO vor Veröffentlichung ersetzen (Suchen &amp; Ersetzen über die ganze Datei):
+     [0451-NUMMER]   -> sichtbare Telefonnummer, z. B. 0451 123456
+     +49451XXXXXXX   -> dieselbe Nummer im internationalen Format für tel:-Links und JSON-LD, z. B. +49451123456
+     [STADTTEIL]     -> Stadtteil, z. B. St. Lorenz
+     [ADRESSE]       -> Straße Hausnummer, PLZ Lübeck
+     [E-MAIL]        -> E-Mail-Adresse (auch im mailto:-Link)
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abbe Technikhilfe Lübeck — Hilfe bei Handy &amp; Computer zuhause für Senioren</title>
+<meta name="description" content="Abbe Technikhilfe: geduldige Hilfe bei Handy, Computer und Internet bei Ihnen zuhause in Lübeck. Festpreis, keine Vertragsbindung. Telefon [0451-NUMMER].">
+<link rel="icon" href="data:,">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Abbe Technikhilfe",
+  "telephone": "+49451XXXXXXX",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "[ADRESSE]",
+    "addressLocality": "Lübeck",
+    "addressCountry": "DE"
+  },
+  "areaServed": "Lübeck",
+  "priceRange": "39–49 €"
+}
+</script>
+<style>
+  :root {
+    --papier: #FBF9F4;
+    --tinte: #1C1C1A;
+    --blau: #1A4A78;
+    --sand: #F3EDDF;
+    --linie: rgba(28, 28, 26, 0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--papier);
+    color: var(--tinte);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+  .spalte { max-width: 690px; margin: 0 auto; padding: 0 20px; }
+
+  a { color: var(--blau); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus { outline: 2px solid var(--blau); outline-offset: 3px; }
+
+  h1, h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; overflow-wrap: break-word; hyphens: auto; }
+  h1 { font-size: 38px; line-height: 1.18; margin: 8px 0 18px; }
+  h2 { font-size: 28px; line-height: 1.25; margin: 0 0 14px; }
+  p { margin: 14px 0 0; }
+  h2 + p { margin-top: 0; }
+
+  /* Zeitungskopf */
+  .zeitungskopf { text-align: center; padding: 30px 0 20px; border-bottom: 2px solid var(--tinte); }
+  .kopf-meta { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
+  .zeitungstitel {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    font-size: clamp(34px, 7.5vw, 52px);
+    line-height: 1.08;
+    margin: 10px 0 0;
+  }
+
+  /* Sektionen */
+  .abschnitt { border-top: 1px solid var(--linie); padding: 32px 0; }
+  .einstieg { border-top: 0; }
+
+  .kicker {
+    color: var(--blau);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  /* Telefon-Button */
+  .btn-anruf {
+    display: block;
+    width: 100%;
+    min-height: 56px;
+    background: var(--blau);
+    color: #FFFFFF;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 28px;
+    border-radius: 6px;
+    margin-top: 26px;
+  }
+  .btn-anruf:hover { text-decoration: underline; }
+  .hinweis { font-size: 17px; margin-top: 14px; }
+
+  /* Listen */
+  .hilfe-liste, .merkmale { list-style: none; margin-top: 6px; }
+  .hilfe-liste li { padding: 12px 0; border-top: 1px solid var(--linie); }
+  .hilfe-liste li:first-child { border-top: 0; }
+
+  /* Nummerierte Schritte */
+  .schritte { list-style: none; counter-reset: schritt; margin-top: 6px; }
+  .schritte li {
+    counter-increment: schritt;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 16px;
+    align-items: baseline;
+    padding: 14px 0;
+  }
+  .schritte li::before {
+    content: counter(schritt) ".";
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .schritte p { margin: 0; }
+
+  /* Infokasten */
+  .infokasten { background: var(--sand); border-left: 2px solid var(--blau); padding: 26px; }
+  .infokasten h2 { margin-bottom: 4px; }
+  .merkmale li { padding: 12px 0; border-top: 1px solid var(--linie); }
+  .merkmale li:first-child { border-top: 0; }
+  .schlusszeile { font-style: italic; margin-top: 14px; }
+
+  /* Häufige Fragen */
+  .fragen p { margin: 0 0 20px; }
+  .fragen p:last-child { margin-bottom: 0; }
+
+  /* Fußbereich */
+  footer { border-top: 2px solid var(--tinte); text-align: center; padding: 30px 0 46px; }
+  footer .btn-anruf { margin-top: 4px; }
+  .fusszeile { font-size: 17px; margin-top: 24px; }
+  .fusslinks { margin-top: 8px; }
+  .fusslinks a { display: inline-block; padding: 12px 10px; min-width: 48px; }
+  .mailzeile a { display: inline-block; padding: 12px 8px; margin-left: -8px; overflow-wrap: break-word; }
+
+  @media (min-width: 540px) {
+    .btn-anruf { display: inline-block; width: auto; padding: 15px 48px; }
+  }
+  @media (min-width: 640px) {
+    h1 { font-size: 42px; }
+  }
+  @media (min-width: 768px) {
+    .abschnitt { padding: 36px 0; }
+    .zeitungskopf { padding-top: 40px; }
+    .infokasten { padding: 28px; }
+  }
+
+  @media print {
+    body { background: #FFFFFF; color: #000000; font-size: 12pt; }
+    a { color: #000000; text-decoration: none; }
+    .btn-anruf {
+      display: block;
+      width: auto;
+      min-height: 0;
+      background: none;
+      color: #000000;
+      font-size: 14pt;
+      text-align: left;
+      padding: 0;
+      border-radius: 0;
+      margin-top: 14px;
+    }
+    footer .btn-anruf { text-align: center; }
+    .infokasten { background: none; border: 1px solid #000000; border-left: 2px solid #000000; break-inside: avoid; }
+    .schritte li { break-inside: avoid; }
+    .abschnitt { padding: 16pt 0; }
+    .zeitungskopf, footer { border-color: #000000; }
+  }
+</style>
+</head>
+<body>
+<div class="spalte">
+
+  <header class="zeitungskopf">
+    <p class="kopf-meta">Lübeck &amp; Umgebung · Hausbesuche · Mo–Sa</p>
+    <p class="zeitungstitel">Abbe Technikhilfe</p>
+  </header>
+
+  <main>
+
+    <section class="abschnitt einstieg">
+      <p class="kicker">Technikhilfe zuhause · Lübeck &amp; Umgebung</p>
+      <h1>Hilfe bei Handy, Computer &amp; Internet — bei Ihnen zuhause.</h1>
+      <p>Mein Name ist Eliseo Abbe. Ich komme zu Ihnen nach Hause und helfe geduldig bei allem, was mit Technik zu tun hat. Ohne Fachbegriffe, ohne Zeitdruck — Sie bestimmen das Tempo.</p>
+      <a class="btn-anruf" href="tel:+49451XXXXXXX">Anrufen: [0451-NUMMER]</a>
+      <p class="hinweis">Montag bis Samstag erreichbar. Wenn ich gerade bei einem Termin bin, rufe ich zuverlässig zurück.</p>
+    </section>
+
+    <section class="abschnitt">
+      <h2>Wobei ich helfe</h2>
+      <p>Zum Beispiel bei diesen Dingen — und bei allem anderen, das einen Stecker oder einen Bildschirm hat:</p>
+      <ul class="hilfe-liste">
+        <li><strong>WhatsApp einrichten</strong> — damit Sie Fotos und Nachrichten von Kindern und Enkeln bekommen.</li>
+        <li><strong>Neues Handy oder Tablet</strong> — einrichten, erklären und alle Daten vom alten Gerät übertragen.</li>
+        <li><strong>Sicherheit</strong> — Schutz vor Betrugs-Mails, falschen Anrufen und Abzocke im Internet.</li>
+        <li><strong>Online-Banking</strong> — in Ruhe und sicher einrichten, Schritt für Schritt erklärt.</li>
+        <li><strong>Drucker, WLAN und Fernseher</strong> — wieder zum Laufen bringen.</li>
+        <li><strong>Termine im Internet</strong> — Arzttermine oder Behördengänge gemeinsam online erledigen.</li>
+      </ul>
+    </section>
+
+    <section class="abschnitt">
+      <h2>So läuft ein Besuch ab</h2>
+      <ol class="schritte">
+        <li><p>Sie rufen an und schildern mir Ihr Anliegen. Wir finden einen Termin, der Ihnen passt.</p></li>
+        <li><p>Ich komme pünktlich zu Ihnen nach Hause. Wir lösen das Problem gemeinsam — ich erkläre jeden Schritt, Sie machen mit, so viel Sie möchten.</p></li>
+        <li><p>Zum Schluss bekommen Sie von mir einen Merkzettel in großer Schrift, damit Sie alles Wichtige nachlesen können.</p></li>
+      </ol>
+    </section>
+
+    <section class="abschnitt">
+      <h2>Was es kostet</h2>
+      <p>Ein Besuch (bis 60 Minuten) kostet <strong>39 Euro</strong>, dazu kommt eine Anfahrtspauschale von <strong>5 Euro</strong> innerhalb Lübecks bzw. <strong>10 Euro</strong> im Umland (z. B. Travemünde, Bad Schwartau). Keine Vertragsbindung, keine versteckten Kosten, kein Cent mehr als vereinbart. Sie zahlen, wie es Ihnen lieber ist: in bar oder bequem per Rechnung. <strong>Und wenn ich Ihr Problem nicht lösen kann, kostet Sie der Besuch nichts.</strong></p>
+      <!-- Bewusst KEIN Abo-Modell auf der Seite — kommt evtl. später nach dem Markttest. -->
+      <a class="btn-anruf" href="tel:+49451XXXXXXX">Anrufen: [0451-NUMMER]</a>
+    </section>
+
+    <section class="abschnitt">
+      <div class="infokasten">
+        <h2>Daran erkennen Sie mich</h2>
+        <ul class="merkmale">
+          <li>Ich rufe Sie <strong>niemals unaufgefordert</strong> an. Sie rufen mich an — nie umgekehrt.</li>
+          <li>Ich frage <strong>niemals</strong> nach PIN, Passwörtern oder TAN. Bei Eingaben schaue ich weg.</li>
+          <li>Ihre Daten bleiben bei Ihnen. Ich installiere nichts ohne Ihre Zustimmung und erkläre vorher, was ich tue.</li>
+          <li>Sie bekommen immer eine ordentliche Rechnung mit meinem vollen Namen und meiner Anschrift.</li>
+        </ul>
+        <p class="schlusszeile">Zeigen Sie diese Seite gern Ihren Angehörigen — gesundes Misstrauen ist völlig richtig.</p>
+      </div>
+    </section>
+
+    <section class="abschnitt">
+      <h2>Über mich</h2>
+      <p>Ich bin Eliseo Abbe, 20 Jahre alt, und lebe in [STADTTEIL]. Mit Technik bin ich aufgewachsen — sie ist für mich Alltag, seit ich denken kann. In meinem früheren Beruf habe ich vielen älteren Menschen bei ihrer Technik geholfen, und meinen eigenen Großeltern helfe ich bis heute regelmäßig. Dabei habe ich eines gelernt: Mit genug Ruhe und den richtigen Worten verliert jede Technik ihren Schrecken.</p>
+    </section>
+
+    <section class="abschnitt">
+      <h2>Für Angehörige</h2>
+      <p>Sie wohnen nicht in der Nähe und möchten, dass jemand Ihrer Mutter oder Ihrem Vater geduldig hilft? Rufen Sie mich an oder schreiben Sie mir — wir besprechen kurz, worum es geht, und ich kümmere mich. Auf Wunsch bekommen Sie nach jedem Besuch eine kurze Rückmeldung. Ein Besuch lässt sich auch gut verschenken. Die Kosten sind als haushaltsnahe Dienstleistung in vielen Fällen steuerlich absetzbar (§&nbsp;35a EStG — keine Steuerberatung).</p>
+      <!-- TODO: sobald WhatsApp Business eingerichtet ist, hier wa.me-Link ergänzen -->
+      <p class="mailzeile">Nachricht an: <a href="mailto:[E-MAIL]">[E-MAIL]</a></p>
+    </section>
+
+    <section class="abschnitt fragen">
+      <h2>Häufige Fragen</h2>
+      <p><strong>Muss ich etwas vorbereiten?</strong><br>
+      Nein. Es hilft, wenn Geräte und — falls vorhanden — Zettel mit Zugangsdaten griffbereit liegen. Den Rest machen wir zusammen.</p>
+      <p><strong>Was ist, wenn Sie das Problem nicht lösen können?</strong><br>
+      Dann sage ich Ihnen das ehrlich, und der Besuch kostet Sie nichts. Wir überlegen dann gemeinsam, wer Ihnen weiterhelfen kann.</p>
+      <p><strong>Verkaufen Sie mir etwas?</strong><br>
+      Nein. Ich verkaufe keine Geräte und keine Verträge. Wenn ein Kauf sinnvoll ist, berate ich Sie neutral — entscheiden tun Sie.</p>
+      <p><strong>Wie schnell bekomme ich einen Termin?</strong><br>
+      In der Regel innerhalb weniger Tage, oft schneller.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <a class="btn-anruf" href="tel:+49451XXXXXXX">Anrufen: [0451-NUMMER]</a>
+    <p class="fusszeile">Abbe Technikhilfe · Inhaber: Eliseo Abbe · [ADRESSE] · Telefon [0451-NUMMER] · [E-MAIL]</p>
+    <p class="fusszeile">Einzugsgebiet: Lübeck, Travemünde, Bad Schwartau und Umgebung</p>
+    <p class="fusslinks"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
