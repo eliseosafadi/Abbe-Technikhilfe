@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — Abbe Technikhilfe</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --grund: #FFFFFF;
+    --flaeche: #F5F5F7;
+    --tinte: #1D1D1F;
+    --neben: #6E6E73;
+    --blau: #0066CC;
+    --blau-hell: #0071E3;
+    --linie: #D2D2D7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--flaeche);
+    color: var(--tinte);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  a { color: var(--blau); }
+  a:focus, button:focus, input:focus, textarea:focus { outline: 2px solid var(--blau); outline-offset: 2px; }
+  .leiste { position: sticky; top: 0; z-index: 10; background: rgba(245,245,247,0.92); border-bottom: 1px solid var(--linie); }
+  @supports ((backdrop-filter: blur(20px))) {
+    .leiste { background: rgba(245,245,247,0.75); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  }
+  .leiste-innen { max-width: 820px; margin: 0 auto; min-height: 60px; padding: 8px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .marke { font-size: 17px; font-weight: 600; }
+  .leiste a { text-decoration: none; font-weight: 600; padding: 12px 0; display: inline-block; }
+  .leiste a:hover { text-decoration: underline; }
+  main { max-width: 820px; margin: 0 auto; padding: 30px 18px 40px; }
+  h1 { font-size: clamp(28px, 6vw, 40px); font-weight: 700; letter-spacing: -0.01em; }
+  .einfuehrung { color: var(--neben); margin-top: 8px; max-width: 640px; }
+  .hilfekasten { background: var(--grund); border-left: 3px solid var(--blau); border-radius: 12px; padding: 18px 20px; margin-top: 20px; }
+  .hilfekasten ol { margin: 8px 0 0 22px; }
+  .hilfekasten li { margin-top: 6px; }
+  .hilfekasten p { margin-top: 10px; color: var(--neben); font-size: 15px; }
+  .gruppe { background: var(--grund); border-radius: 18px; padding: 22px 22px 26px; margin-top: 18px; }
+  .gruppe h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+  .feld { margin-top: 16px; }
+  .feld label { display: block; font-size: 14px; font-weight: 600; color: var(--neben); margin-bottom: 6px; }
+  .feld input, .feld textarea {
+    width: 100%; font: inherit; color: var(--tinte);
+    background: var(--flaeche); border: 1px solid var(--linie); border-radius: 12px;
+    padding: 12px 14px; resize: vertical;
+  }
+  .feld small { display: block; color: var(--neben); font-size: 13.5px; margin-top: 5px; }
+  .aktionen { position: sticky; bottom: 0; background: rgba(245,245,247,0.92); border-top: 1px solid var(--linie); }
+  @supports ((backdrop-filter: blur(20px))) {
+    .aktionen { background: rgba(245,245,247,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  }
+  .aktionen-innen { max-width: 820px; margin: 0 auto; padding: 12px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  button { font: inherit; font-weight: 600; border: 0; border-radius: 980px; padding: 13px 22px; cursor: pointer; }
+  .knopf-blau { background: var(--blau); color: #FFFFFF; }
+  .knopf-blau:hover { background: var(--blau-hell); }
+  .knopf-grau { background: #E8E8ED; color: var(--tinte); }
+  .knopf-grau:hover { background: #DFDFE4; }
+  .status { color: var(--neben); font-size: 15px; }
+</style>
+</head>
+<body>
+
+<nav class="leiste">
+  <div class="leiste-innen">
+    <span class="marke">Abbe Technikhilfe · Admin</span>
+    <a href="index.html">Seite ansehen</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Texte bearbeiten</h1>
+  <p class="einfuehrung">Hier können Sie jeden Text der Startseite ändern. Ihre Eingaben werden automatisch in diesem Browser gespeichert — online geht die Änderung erst, wenn Sie die neue Datei bei GitHub hochladen.</p>
+  <div class="hilfekasten">
+    <strong>So veröffentlichen Sie Ihre Änderungen:</strong>
+    <ol>
+      <li>Texte unten ändern und mit „Vorschau“ prüfen.</li>
+      <li>„Neue index.html herunterladen“ anklicken.</li>
+      <li><a href="https://github.com/eliseosafadi/Abbe-Technikhilfe/upload/main" target="_blank" rel="noopener">Diesen GitHub-Link öffnen</a>, die heruntergeladene Datei in das Fenster ziehen und auf „Commit changes“ klicken.</li>
+    </ol>
+    <p>Die alte Startseite wird dabei ersetzt; nach ein bis zwei Minuten ist die Änderung online. Fettdruck: **so markierte Wörter** erscheinen fett.</p>
+  </div>
+  <form id="formular"></form>
+</main>
+
+<div class="aktionen">
+  <div class="aktionen-innen">
+    <button type="button" class="knopf-grau" id="knopf-vorschau">Vorschau</button>
+    <button type="button" class="knopf-blau" id="knopf-laden">Neue index.html herunterladen</button>
+    <button type="button" class="knopf-grau" id="knopf-reset">Zurücksetzen</button>
+    <span class="status" id="status" aria-live="polite"></span>
+  </div>
+</div>
+
+<script>
+function h(t) {
+  return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/ /g, '&nbsp;');
+}
+function f(t) {
+  return h(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+function j(t) {
+  return String(t).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+const START = {
+ "marke": "Abbe Technikhilfe",
+ "nav_knopf": "Anrufen",
+ "vorzeile": "Technikhilfe zuhause · Lübeck & Umgebung",
+ "ueberschrift": "Hilfe bei Handy, Computer & Internet — bei Ihnen zuhause.",
+ "unterzeile": "Mein Name ist Eliseo Abbe. Ich komme zu Ihnen nach Hause und helfe geduldig bei allem, was mit Technik zu tun hat. Ohne Fachbegriffe, ohne Zeitdruck — Sie bestimmen das Tempo.",
+ "knopf_text": "Anrufen: [0451-NUMMER]",
+ "hinweis": "Montag bis Samstag erreichbar. Wenn ich gerade bei einem Termin bin, rufe ich zuverlässig zurück.",
+ "h2_hilfe": "Wobei ich helfe",
+ "intro_hilfe": "Zum Beispiel bei diesen Dingen — und bei allem anderen, das einen Stecker oder einen Bildschirm hat:",
+ "karte1_titel": "WhatsApp einrichten",
+ "karte1_text": "Damit Sie Fotos und Nachrichten von Kindern und Enkeln bekommen.",
+ "karte2_titel": "Neues Handy oder Tablet",
+ "karte2_text": "Einrichten, erklären und alle Daten vom alten Gerät übertragen.",
+ "karte3_titel": "Sicherheit",
+ "karte3_text": "Schutz vor Betrugs-Mails, falschen Anrufen und Abzocke im Internet.",
+ "karte4_titel": "Online-Banking",
+ "karte4_text": "In Ruhe und sicher einrichten, Schritt für Schritt erklärt.",
+ "karte5_titel": "Drucker, WLAN und Fernseher",
+ "karte5_text": "Wieder zum Laufen bringen.",
+ "karte6_titel": "Termine im Internet",
+ "karte6_text": "Arzttermine oder Behördengänge gemeinsam online erledigen.",
+ "h2_besuch": "So läuft ein Besuch ab",
+ "schritt1": "Sie rufen an und schildern mir Ihr Anliegen. Wir finden einen Termin, der Ihnen passt.",
+ "schritt2": "Ich komme pünktlich zu Ihnen nach Hause. Wir lösen das Problem gemeinsam — ich erkläre jeden Schritt, Sie machen mit, so viel Sie möchten.",
+ "schritt3": "Zum Schluss bekommen Sie von mir einen Merkzettel in großer Schrift, damit Sie alles Wichtige nachlesen können.",
+ "h2_preis": "Was es kostet",
+ "preis_text": "Ein Besuch (bis 60 Minuten) kostet **39 Euro**, dazu kommt eine Anfahrtspauschale von **5 Euro** innerhalb Lübecks bzw. **10 Euro** im Umland (z. B. Travemünde, Bad Schwartau). Keine Vertragsbindung, keine versteckten Kosten, kein Cent mehr als vereinbart. Sie zahlen, wie es Ihnen lieber ist: in bar oder bequem per Rechnung. **Und wenn ich Ihr Problem nicht lösen kann, kostet Sie der Besuch nichts.**",
+ "h2_vertrauen": "Daran erkennen Sie mich",
+ "merkmal1": "Ich rufe Sie **niemals unaufgefordert** an. Sie rufen mich an — nie umgekehrt.",
+ "merkmal2": "Ich frage **niemals** nach PIN, Passwörtern oder TAN. Bei Eingaben schaue ich weg.",
+ "merkmal3": "Ihre Daten bleiben bei Ihnen. Ich installiere nichts ohne Ihre Zustimmung und erkläre vorher, was ich tue.",
+ "merkmal4": "Sie bekommen immer eine ordentliche Rechnung mit meinem vollen Namen und meiner Anschrift.",
+ "schlusszeile": "Zeigen Sie diese Seite gern Ihren Angehörigen — gesundes Misstrauen ist völlig richtig.",
+ "h2_ueber": "Über mich",
+ "ueber_text": "Ich bin Eliseo Abbe, 20 Jahre alt, und lebe in [STADTTEIL]. Mit Technik bin ich aufgewachsen — sie ist für mich Alltag, seit ich denken kann. In meinem früheren Beruf habe ich vielen älteren Menschen bei ihrer Technik geholfen, und meinen eigenen Großeltern helfe ich bis heute regelmäßig. Dabei habe ich eines gelernt: Mit genug Ruhe und den richtigen Worten verliert jede Technik ihren Schrecken.",
+ "h2_angehoerige": "Für Angehörige",
+ "angehoerige_text": "Sie wohnen nicht in der Nähe und möchten, dass jemand Ihrer Mutter oder Ihrem Vater geduldig hilft? Rufen Sie mich an oder schreiben Sie mir — wir besprechen kurz, worum es geht, und ich kümmere mich. Auf Wunsch bekommen Sie nach jedem Besuch eine kurze Rückmeldung. Ein Besuch lässt sich auch gut verschenken. Die Kosten sind als haushaltsnahe Dienstleistung in vielen Fällen steuerlich absetzbar (§ 35a EStG — keine Steuerberatung).",
+ "mail_hinweis": "Nachricht an:",
+ "email": "[E-MAIL]",
+ "h2_fragen": "Häufige Fragen",
+ "frage1": "Muss ich etwas vorbereiten?",
+ "antwort1": "Nein. Es hilft, wenn Geräte und — falls vorhanden — Zettel mit Zugangsdaten griffbereit liegen. Den Rest machen wir zusammen.",
+ "frage2": "Was ist, wenn Sie das Problem nicht lösen können?",
+ "antwort2": "Dann sage ich Ihnen das ehrlich, und der Besuch kostet Sie nichts. Wir überlegen dann gemeinsam, wer Ihnen weiterhelfen kann.",
+ "frage3": "Verkaufen Sie mir etwas?",
+ "antwort3": "Nein. Ich verkaufe keine Geräte und keine Verträge. Wenn ein Kauf sinnvoll ist, berate ich Sie neutral — entscheiden tun Sie.",
+ "frage4": "Wie schnell bekomme ich einen Termin?",
+ "antwort4": "In der Regel innerhalb weniger Tage, oft schneller.",
+ "fuss_zeile1": "Abbe Technikhilfe · Inhaber: Eliseo Abbe · [ADRESSE] · Telefon [0451-NUMMER] · [E-MAIL]",
+ "fuss_zeile2": "Einzugsgebiet: Lübeck, Travemünde, Bad Schwartau und Umgebung",
+ "titel_seite": "Abbe Technikhilfe Lübeck — Hilfe bei Handy & Computer zuhause für Senioren",
+ "meta_beschreibung": "Abbe Technikhilfe: geduldige Hilfe bei Handy, Computer und Internet bei Ihnen zuhause in Lübeck. Festpreis, keine Vertragsbindung. Telefon [0451-NUMMER].",
+ "telefon_link": "+49451XXXXXXX",
+ "telefon_daten": "+49451XXXXXXX",
+ "adresse_daten": "[ADRESSE]",
+ "preisspanne": "39–49 €"
+};
+
+const FELDER = [{"key": "marke", "label": "Name oben in der Leiste", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "nav_knopf", "label": "Knopf in der Leiste", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "vorzeile", "label": "Kleine blaue Zeile über der Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "ueberschrift", "label": "Große Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "unterzeile", "label": "Text unter der Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "knopf_text", "label": "Beschriftung der großen Anruf-Knöpfe (3×)", "gruppe": "Seitenkopf & Navigation", "hilfe": "Erscheint oben, beim Preis und im Fußbereich."}, {"key": "hinweis", "label": "Kleine Zeile unter dem Anruf-Knopf", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "h2_hilfe", "label": "Überschrift des Abschnitts", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "intro_hilfe", "label": "Einleitungssatz", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte1_titel", "label": "Karte 1 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte1_text", "label": "Karte 1 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte2_titel", "label": "Karte 2 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte2_text", "label": "Karte 2 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte3_titel", "label": "Karte 3 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte3_text", "label": "Karte 3 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte4_titel", "label": "Karte 4 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte4_text", "label": "Karte 4 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte5_titel", "label": "Karte 5 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte5_text", "label": "Karte 5 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte6_titel", "label": "Karte 6 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte6_text", "label": "Karte 6 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "h2_besuch", "label": "Überschrift des Abschnitts", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt1", "label": "Schritt 1", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt2", "label": "Schritt 2", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt3", "label": "Schritt 3", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "h2_preis", "label": "Überschrift des Abschnitts", "gruppe": "Was es kostet", "hilfe": null}, {"key": "preis_text", "label": "Preistext", "gruppe": "Was es kostet", "hilfe": "**so markierte Wörter** erscheinen fett."}, {"key": "h2_vertrauen", "label": "Überschrift des Kastens", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal1", "label": "Punkt 1", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal2", "label": "Punkt 2", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal3", "label": "Punkt 3", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal4", "label": "Punkt 4", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "schlusszeile", "label": "Kursive Schlusszeile", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "h2_ueber", "label": "Überschrift des Abschnitts", "gruppe": "Über mich", "hilfe": null}, {"key": "ueber_text", "label": "Text", "gruppe": "Über mich", "hilfe": "[STADTTEIL] durch den echten Stadtteil ersetzen."}, {"key": "h2_angehoerige", "label": "Überschrift des Abschnitts", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "angehoerige_text", "label": "Text", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "mail_hinweis", "label": "Zeile vor der E-Mail-Adresse", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "email", "label": "E-Mail-Adresse", "gruppe": "Für Angehörige", "hilfe": "Wird als Link und als sichtbarer Text verwendet."}, {"key": "h2_fragen", "label": "Überschrift des Abschnitts", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage1", "label": "Frage 1", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort1", "label": "Antwort 1", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage2", "label": "Frage 2", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort2", "label": "Antwort 2", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage3", "label": "Frage 3", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort3", "label": "Antwort 3", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage4", "label": "Frage 4", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort4", "label": "Antwort 4", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "fuss_zeile1", "label": "Erste Zeile", "gruppe": "Fußbereich", "hilfe": null}, {"key": "fuss_zeile2", "label": "Zweite Zeile", "gruppe": "Fußbereich", "hilfe": null}, {"key": "titel_seite", "label": "Seitentitel (Browser-Tab & Google)", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "meta_beschreibung", "label": "Beschreibung für Google (max. 155 Zeichen)", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "telefon_link", "label": "Telefonnummer für die Anruf-Funktion", "gruppe": "Technik & Suchmaschinen", "hilfe": "Im Format +49451… ohne Leerzeichen. Steuert, welche Nummer beim Antippen gewählt wird."}, {"key": "telefon_daten", "label": "Telefonnummer für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "adresse_daten", "label": "Straße & Hausnummer für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "preisspanne", "label": "Preisspanne für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}];
+
+const VORLAGE = (w) => `<!DOCTYPE html>
+<html lang="de">
+<head>
+<!-- TODO vor Veröffentlichung ersetzen (Suchen &amp; Ersetzen über die ganze Datei):
+     [0451-NUMMER]   -> sichtbare Telefonnummer, z. B. 0451 123456
+     +49451XXXXXXX   -> dieselbe Nummer im internationalen Format für tel:-Links und JSON-LD, z. B. +49451123456
+     [STADTTEIL]     -> Stadtteil, z. B. St. Lorenz
+     [ADRESSE]       -> Straße Hausnummer, PLZ Lübeck
+     [E-MAIL]        -> E-Mail-Adresse (auch im mailto:-Link)
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${h(w.titel_seite)}</title>
+<meta name="description" content="${h(w.meta_beschreibung)}">
+<link rel="icon" href="data:,">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Abbe Technikhilfe",
+  "telephone": "${j(w.telefon_daten)}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "${j(w.adresse_daten)}",
+    "addressLocality": "Lübeck",
+    "addressCountry": "DE"
+  },
+  "areaServed": "Lübeck",
+  "priceRange": "${j(w.preisspanne)}"
+}
+<\/script>
+<style>
+  :root {
+    --grund: #FFFFFF;
+    --flaeche: #F5F5F7;
+    --tinte: #1D1D1F;
+    --neben: #6E6E73;
+    --blau: #0066CC;
+    --blau-hell: #0071E3;
+    --linie: #D2D2D7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--grund);
+    color: var(--tinte);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.55;
+  }
+  p { margin: 14px 0 0; }
+  a { color: var(--blau); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus { outline: 2px solid var(--blau); outline-offset: 3px; }
+
+  h1, h2, h3 { font-weight: 700; overflow-wrap: break-word; }
+  h1 {
+    font-size: clamp(38px, 7.5vw, 64px);
+    letter-spacing: -0.015em;
+    line-height: 1.07;
+    text-align: center;
+    max-width: 840px;
+    margin: 14px auto 0;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: clamp(30px, 5.5vw, 44px);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    text-align: center;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  h3 { font-size: 21px; letter-spacing: -0.01em; margin: 0 0 8px; }
+
+  /* Navigationsleiste */
+  .leiste {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--linie);
+  }
+  @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .leiste {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+  }
+  .leiste-innen {
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 64px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .marke { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+
+  /* Buttons (Pillen) */
+  .pille, .pille-klein {
+    display: inline-block;
+    background: var(--blau);
+    color: #FFFFFF;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 980px;
+    transition: background-color 0.18s ease;
+  }
+  .pille { font-size: 20px; line-height: 1.2; min-height: 56px; padding: 16px 40px; width: 100%; max-width: 380px; }
+  .pille-klein { font-size: 16px; line-height: 1.2; padding: 15px 22px; }
+  .pille:hover, .pille-klein:hover { background: var(--blau-hell); text-decoration: none; }
+  .aktion { text-align: center; margin-top: 30px; }
+
+  /* Bänder und Bühnen */
+  .band { padding: 64px 0; }
+  .band-grau { background: var(--flaeche); }
+  .buehne { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+  .lese { max-width: 704px; margin: 0 auto; padding: 0 22px; }
+  .lese h2 { margin-bottom: 10px; }
+
+  .vorzeile { color: var(--blau); font-size: 17px; font-weight: 600; text-align: center; margin: 0; }
+  .held-sub { font-size: 21px; line-height: 1.5; color: var(--neben); text-align: center; max-width: 660px; margin: 22px auto 0; }
+  .hinweis { font-size: 17px; color: var(--neben); text-align: center; max-width: 520px; margin: 16px auto 0; }
+  .einleitung { font-size: 20px; color: var(--neben); text-align: center; max-width: 640px; margin: 0 auto; }
+
+  /* Karten */
+  .karten { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+  .karte { background: var(--grund); border-radius: 18px; padding: 30px 28px; }
+  .karte p { margin: 0; color: var(--neben); }
+
+  /* Schritte */
+  .schritte { list-style: none; counter-reset: schritt; display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+  .schritte li { counter-increment: schritt; background: var(--flaeche); border-radius: 18px; padding: 30px 28px; }
+  .schritte li::before {
+    content: counter(schritt);
+    display: block;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--blau);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 14px;
+  }
+  .schritte li p { margin: 0; }
+
+  /* Preis */
+  .preis-karte { background: var(--grund); border-radius: 18px; padding: 34px 32px; max-width: 704px; margin: 32px auto 0; }
+  .preis-karte p { margin: 0; }
+
+  /* Dunkles Vertrauens-Panel */
+  .vertrauen { background: var(--tinte); color: #F5F5F7; border-radius: 28px; padding: 44px 32px; max-width: 840px; margin: 0 auto; }
+  .vertrauen h2 { color: #FFFFFF; margin-bottom: 8px; }
+  .merkmale { list-style: none; margin-top: 22px; }
+  .merkmale li { padding: 16px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); }
+  .merkmale li:first-child { border-top: 0; }
+  .schlusszeile { font-style: italic; color: #A1A1A6; margin-top: 18px; }
+
+  /* Häufige Fragen */
+  .fragen-liste { margin-top: 8px; }
+  .fragen-liste p { padding: 22px 0; margin: 0; border-top: 1px solid var(--linie); }
+  .fragen-liste p:first-child { border-top: 0; }
+  .fragen-liste strong { display: block; font-size: 21px; letter-spacing: -0.01em; margin-bottom: 4px; }
+
+  .mailzeile a { display: inline-block; padding: 12px 8px; margin-left: -8px; overflow-wrap: break-word; }
+
+  /* Fußbereich */
+  footer { background: var(--flaeche); border-top: 1px solid var(--linie); padding: 56px 0 64px; text-align: center; }
+  .fusszeile { font-size: 15px; color: var(--neben); max-width: 720px; margin: 20px auto 0; }
+  footer .pille + .fusszeile { margin-top: 30px; }
+  .fusslinks { margin-top: 8px; }
+  .fusslinks a { display: inline-block; padding: 12px 10px; min-width: 48px; }
+
+  @media (max-width: 360px) {
+    .marke { font-size: 16px; }
+    .pille-klein { font-size: 15px; padding: 15px 16px; }
+  }
+  @media (min-width: 700px) {
+    .karten { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  @media (min-width: 820px) {
+    .schritte { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .band { padding: 96px 0; }
+    .vertrauen { padding: 56px 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pille, .pille-klein { transition: none; }
+  }
+
+  @media print {
+    .leiste { display: none; }
+    body { background: #FFFFFF; color: #000000; font-size: 12pt; }
+    .band, footer { background: #FFFFFF; padding: 16pt 0; }
+    a { color: #000000; text-decoration: none; }
+    .pille, .pille-klein {
+      display: block;
+      background: none;
+      color: #000000;
+      min-height: 0;
+      width: auto;
+      max-width: none;
+      padding: 0;
+      border-radius: 0;
+      font-size: 14pt;
+      transition: none;
+    }
+    .vorzeile, .held-sub, .hinweis, .einleitung, .karte p, .fusszeile { color: #000000; }
+    .karte, .schritte li, .preis-karte { background: #FFFFFF; border: 1px solid #BBBBBB; break-inside: avoid; }
+    .karte p { color: #000000; }
+    .vertrauen { background: #FFFFFF; color: #000000; border: 1px solid #000000; break-inside: avoid; }
+    .vertrauen h2 { color: #000000; }
+    .merkmale li { border-color: #999999; }
+    .schlusszeile { color: #000000; }
+    .schritte li::before { color: #000000; }
+    footer { border-top: 1pt solid #000000; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="leiste">
+  <div class="leiste-innen">
+    <span class="marke">${h(w.marke)}</span>
+    <a class="pille-klein" href="tel:${h(w.telefon_link)}">${h(w.nav_knopf)}</a>
+  </div>
+</nav>
+
+<header class="band">
+  <div class="buehne">
+    <p class="vorzeile">${h(w.vorzeile)}</p>
+    <h1>${h(w.ueberschrift)}</h1>
+    <p class="held-sub">${h(w.unterzeile)}</p>
+    <div class="aktion"><a class="pille" href="tel:${h(w.telefon_link)}">${h(w.knopf_text)}</a></div>
+    <p class="hinweis">${h(w.hinweis)}</p>
+  </div>
+</header>
+
+<main>
+
+  <section class="band band-grau">
+    <div class="buehne">
+      <h2>${h(w.h2_hilfe)}</h2>
+      <p class="einleitung">${h(w.intro_hilfe)}</p>
+      <div class="karten">
+        <div class="karte">
+          <h3>${h(w.karte1_titel)}</h3>
+          <p>${h(w.karte1_text)}</p>
+        </div>
+        <div class="karte">
+          <h3>${h(w.karte2_titel)}</h3>
+          <p>${h(w.karte2_text)}</p>
+        </div>
+        <div class="karte">
+          <h3>${h(w.karte3_titel)}</h3>
+          <p>${h(w.karte3_text)}</p>
+        </div>
+        <div class="karte">
+          <h3>${h(w.karte4_titel)}</h3>
+          <p>${h(w.karte4_text)}</p>
+        </div>
+        <div class="karte">
+          <h3>${h(w.karte5_titel)}</h3>
+          <p>${h(w.karte5_text)}</p>
+        </div>
+        <div class="karte">
+          <h3>${h(w.karte6_titel)}</h3>
+          <p>${h(w.karte6_text)}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="buehne">
+      <h2>${h(w.h2_besuch)}</h2>
+      <ol class="schritte">
+        <li><p>${h(w.schritt1)}</p></li>
+        <li><p>${h(w.schritt2)}</p></li>
+        <li><p>${h(w.schritt3)}</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="buehne">
+      <h2>${h(w.h2_preis)}</h2>
+      <div class="preis-karte">
+        <p>${f(w.preis_text)}</p>
+      </div>
+      <!-- Bewusst KEIN Abo-Modell auf der Seite — kommt evtl. später nach dem Markttest. -->
+      <div class="aktion"><a class="pille" href="tel:${h(w.telefon_link)}">${h(w.knopf_text)}</a></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="buehne">
+      <div class="vertrauen">
+        <h2>${h(w.h2_vertrauen)}</h2>
+        <ul class="merkmale">
+          <li>${f(w.merkmal1)}</li>
+          <li>${f(w.merkmal2)}</li>
+          <li>${f(w.merkmal3)}</li>
+          <li>${f(w.merkmal4)}</li>
+        </ul>
+        <p class="schlusszeile">${h(w.schlusszeile)}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="lese">
+      <h2>${h(w.h2_ueber)}</h2>
+      <p>${h(w.ueber_text)}</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="lese">
+      <h2>${h(w.h2_angehoerige)}</h2>
+      <p>${h(w.angehoerige_text)}</p>
+      <!-- TODO: sobald WhatsApp Business eingerichtet ist, hier wa.me-Link ergänzen -->
+      <p class="mailzeile">${h(w.mail_hinweis)} <a href="mailto:${h(w.email)}">${h(w.email)}</a></p>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="lese">
+      <h2>${h(w.h2_fragen)}</h2>
+      <div class="fragen-liste">
+        <p><strong>${h(w.frage1)}</strong>
+        ${h(w.antwort1)}</p>
+        <p><strong>${h(w.frage2)}</strong>
+        ${h(w.antwort2)}</p>
+        <p><strong>${h(w.frage3)}</strong>
+        ${h(w.antwort3)}</p>
+        <p><strong>${h(w.frage4)}</strong>
+        ${h(w.antwort4)}</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="buehne">
+    <a class="pille" href="tel:${h(w.telefon_link)}">${h(w.knopf_text)}</a>
+    <p class="fusszeile">${h(w.fuss_zeile1)}</p>
+    <p class="fusszeile">${h(w.fuss_zeile2)}</p>
+    <p class="fusslinks"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
+`;
+
+const SPEICHER = 'abbe-admin-texte';
+
+function geladen() {
+  let w = Object.assign({}, START);
+  try {
+    const s = JSON.parse(localStorage.getItem(SPEICHER) || '{}');
+    for (const k in s) if (k in w && typeof s[k] === 'string') w[k] = s[k];
+  } catch (e) { /* Gespeichertes unlesbar - Startwerte verwenden */ }
+  return w;
+}
+function werteAktuell() {
+  const w = Object.assign({}, START);
+  document.querySelectorAll('#formular [data-key]').forEach((el) => { w[el.dataset.key] = el.value; });
+  return w;
+}
+function speichern() { localStorage.setItem(SPEICHER, JSON.stringify(werteAktuell())); }
+function melden(t) {
+  const s = document.getElementById('status');
+  s.textContent = t;
+  clearTimeout(melden.timer);
+  melden.timer = setTimeout(() => { s.textContent = ''; }, 3000);
+}
+function erzeugen() { return VORLAGE(werteAktuell()); }
+
+function bauen() {
+  const form = document.getElementById('formular');
+  const werte = geladen();
+  let html = '';
+  let gruppe = null;
+  for (const feld of FELDER) {
+    if (feld.gruppe !== gruppe) {
+      if (gruppe !== null) html += '</section>';
+      gruppe = feld.gruppe;
+      html += '<section class="gruppe"><h2>' + h(gruppe) + '</h2>';
+    }
+    const wert = werte[feld.key];
+    const id = 'feld-' + feld.key;
+    html += '<div class="feld"><label for="' + id + '">' + h(feld.label) + '</label>';
+    if (wert.length > 70) {
+      html += '<textarea id="' + id + '" data-key="' + feld.key + '" rows="' +
+        Math.max(2, Math.ceil(wert.length / 70)) + '">' + h(wert) + '</textarea>';
+    } else {
+      html += '<input id="' + id + '" data-key="' + feld.key + '" type="text" value="' + h(wert) + '">';
+    }
+    if (feld.hilfe) html += '<small>' + h(feld.hilfe) + '</small>';
+    html += '</div>';
+  }
+  html += '</section>';
+  form.innerHTML = html;
+  form.addEventListener('submit', (e) => e.preventDefault());
+  form.addEventListener('input', () => { speichern(); melden('Gespeichert (nur in diesem Browser)'); });
+}
+
+document.getElementById('knopf-vorschau').addEventListener('click', () => {
+  const b = new Blob([erzeugen()], { type: 'text/html' });
+  window.open(URL.createObjectURL(b), '_blank');
+});
+document.getElementById('knopf-laden').addEventListener('click', () => {
+  const b = new Blob([erzeugen()], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'index.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  melden('Datei heruntergeladen — jetzt bei GitHub hochladen');
+});
+document.getElementById('knopf-reset').addEventListener('click', () => {
+  if (confirm('Alle Änderungen verwerfen und die ursprünglichen Texte wiederherstellen?')) {
+    localStorage.removeItem(SPEICHER);
+    location.reload();
+  }
+});
+
+bauen();
+</script>
+</body>
+</html>
