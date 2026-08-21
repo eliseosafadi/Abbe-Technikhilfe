@@ -7,6 +7,7 @@
 <title>Admin — Abbe Technikhilfe</title>
 <link rel="icon" href="data:,">
 <style>
+
   :root {
     --grund: #FFFFFF;
     --flaeche: #F5F5F7;
@@ -19,89 +20,431 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-text-size-adjust: 100%; }
   body {
-    background: var(--flaeche);
+    background: var(--grund);
     color: var(--tinte);
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.5;
+    font-size: 19px;
+    line-height: 1.55;
   }
-  a { color: var(--blau); }
-  a:focus, button:focus, input:focus, textarea:focus { outline: 2px solid var(--blau); outline-offset: 2px; }
-  .leiste { position: sticky; top: 0; z-index: 10; background: rgba(245,245,247,0.92); border-bottom: 1px solid var(--linie); }
-  @supports ((backdrop-filter: blur(20px))) {
-    .leiste { background: rgba(245,245,247,0.75); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  p { margin: 14px 0 0; }
+  a { color: var(--blau); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus { outline: 2px solid var(--blau); outline-offset: 3px; }
+
+  h1, h2, h3 { font-weight: 700; overflow-wrap: break-word; }
+  h1 {
+    font-size: clamp(38px, 7.5vw, 64px);
+    letter-spacing: -0.015em;
+    line-height: 1.07;
+    text-align: center;
+    max-width: 840px;
+    margin: 14px auto 0;
+    text-wrap: balance;
   }
-  .leiste-innen { max-width: 820px; margin: 0 auto; min-height: 60px; padding: 8px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .marke { font-size: 17px; font-weight: 600; }
-  .leiste a { text-decoration: none; font-weight: 600; padding: 12px 0; display: inline-block; }
-  .leiste a:hover { text-decoration: underline; }
-  main { max-width: 820px; margin: 0 auto; padding: 30px 18px 40px; }
-  h1 { font-size: clamp(28px, 6vw, 40px); font-weight: 700; letter-spacing: -0.01em; }
-  .einfuehrung { color: var(--neben); margin-top: 8px; max-width: 640px; }
-  .hilfekasten { background: var(--grund); border-left: 3px solid var(--blau); border-radius: 12px; padding: 18px 20px; margin-top: 20px; }
-  .hilfekasten ol { margin: 8px 0 0 22px; }
-  .hilfekasten li { margin-top: 6px; }
-  .hilfekasten p { margin-top: 10px; color: var(--neben); font-size: 15px; }
-  .gruppe { background: var(--grund); border-radius: 18px; padding: 22px 22px 26px; margin-top: 18px; }
-  .gruppe h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
-  .feld { margin-top: 16px; }
-  .feld label { display: block; font-size: 14px; font-weight: 600; color: var(--neben); margin-bottom: 6px; }
-  .feld input, .feld textarea {
-    width: 100%; font: inherit; color: var(--tinte);
-    background: var(--flaeche); border: 1px solid var(--linie); border-radius: 12px;
-    padding: 12px 14px; resize: vertical;
+  h2 {
+    font-size: clamp(30px, 5.5vw, 44px);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    text-align: center;
+    margin: 0 0 18px;
+    text-wrap: balance;
   }
-  .feld small { display: block; color: var(--neben); font-size: 13.5px; margin-top: 5px; }
-  .aktionen { position: sticky; bottom: 0; background: rgba(245,245,247,0.92); border-top: 1px solid var(--linie); }
-  @supports ((backdrop-filter: blur(20px))) {
-    .aktionen { background: rgba(245,245,247,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  h3 { font-size: 21px; letter-spacing: -0.01em; margin: 0 0 8px; }
+
+  /* Navigationsleiste */
+  .leiste {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--linie);
   }
-  .aktionen-innen { max-width: 820px; margin: 0 auto; padding: 12px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-  button { font: inherit; font-weight: 600; border: 0; border-radius: 980px; padding: 13px 22px; cursor: pointer; }
-  .knopf-blau { background: var(--blau); color: #FFFFFF; }
-  .knopf-blau:hover { background: var(--blau-hell); }
-  .knopf-grau { background: #E8E8ED; color: var(--tinte); }
-  .knopf-grau:hover { background: #DFDFE4; }
-  .status { color: var(--neben); font-size: 15px; }
+  @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .leiste {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+  }
+  .leiste-innen {
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 64px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .marke { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+
+  /* Buttons (Pillen) */
+  .pille, .pille-klein {
+    display: inline-block;
+    background: var(--blau);
+    color: #FFFFFF;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 980px;
+    transition: background-color 0.18s ease;
+  }
+  .pille { font-size: 20px; line-height: 1.2; min-height: 56px; padding: 16px 40px; width: 100%; max-width: 380px; }
+  .pille-klein { font-size: 16px; line-height: 1.2; padding: 15px 22px; }
+  .pille:hover, .pille-klein:hover { background: var(--blau-hell); text-decoration: none; }
+  .aktion { text-align: center; margin-top: 30px; }
+
+  /* Bänder und Bühnen */
+  .band { padding: 64px 0; }
+  .band-grau { background: var(--flaeche); }
+  .buehne { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+  .lese { max-width: 704px; margin: 0 auto; padding: 0 22px; }
+  .lese h2 { margin-bottom: 10px; }
+
+  .vorzeile { color: var(--blau); font-size: 17px; font-weight: 600; text-align: center; margin: 0; }
+  .held-sub { font-size: 21px; line-height: 1.5; color: var(--neben); text-align: center; max-width: 660px; margin: 22px auto 0; }
+  .hinweis { font-size: 17px; color: var(--neben); text-align: center; max-width: 520px; margin: 16px auto 0; }
+  .einleitung { font-size: 20px; color: var(--neben); text-align: center; max-width: 640px; margin: 0 auto; }
+
+  /* Karten */
+  .karten { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+  .karte { background: var(--grund); border-radius: 18px; padding: 30px 28px; }
+  .karte p { margin: 0; color: var(--neben); }
+
+  /* Schritte */
+  .schritte { list-style: none; counter-reset: schritt; display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+  .schritte li { counter-increment: schritt; background: var(--flaeche); border-radius: 18px; padding: 30px 28px; }
+  .schritte li::before {
+    content: counter(schritt);
+    display: block;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--blau);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 14px;
+  }
+  .schritte li p { margin: 0; }
+
+  /* Preis */
+  .preis-karte { background: var(--grund); border-radius: 18px; padding: 34px 32px; max-width: 704px; margin: 32px auto 0; }
+  .preis-karte p { margin: 0; }
+
+  /* Dunkles Vertrauens-Panel */
+  .vertrauen { background: var(--tinte); color: #F5F5F7; border-radius: 28px; padding: 44px 32px; max-width: 840px; margin: 0 auto; }
+  .vertrauen h2 { color: #FFFFFF; margin-bottom: 8px; }
+  .merkmale { list-style: none; margin-top: 22px; }
+  .merkmale li { padding: 16px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); }
+  .merkmale li:first-child { border-top: 0; }
+  .schlusszeile { font-style: italic; color: #A1A1A6; margin-top: 18px; }
+
+  /* Häufige Fragen */
+  .fragen-liste { margin-top: 8px; }
+  .fragen-liste p { padding: 22px 0; margin: 0; border-top: 1px solid var(--linie); }
+  .fragen-liste p:first-child { border-top: 0; }
+  .fragen-liste strong { display: block; font-size: 21px; letter-spacing: -0.01em; margin-bottom: 4px; }
+
+  .mailzeile a { display: inline-block; padding: 12px 8px; margin-left: -8px; overflow-wrap: break-word; }
+
+  /* Fußbereich */
+  footer { background: var(--flaeche); border-top: 1px solid var(--linie); padding: 56px 0 64px; text-align: center; }
+  .fusszeile { font-size: 15px; color: var(--neben); max-width: 720px; margin: 20px auto 0; }
+  footer .pille + .fusszeile { margin-top: 30px; }
+  .fusslinks { margin-top: 8px; }
+  .fusslinks a { display: inline-block; padding: 12px 10px; min-width: 48px; }
+
+  @media (max-width: 360px) {
+    .marke { font-size: 16px; }
+    .pille-klein { font-size: 15px; padding: 15px 16px; }
+  }
+  @media (min-width: 700px) {
+    .karten { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  @media (min-width: 820px) {
+    .schritte { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .band { padding: 96px 0; }
+    .vertrauen { padding: 56px 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pille, .pille-klein { transition: none; }
+  }
+
+  @media print {
+    .leiste { display: none; }
+    body { background: #FFFFFF; color: #000000; font-size: 12pt; }
+    .band, footer { background: #FFFFFF; padding: 16pt 0; }
+    a { color: #000000; text-decoration: none; }
+    .pille, .pille-klein {
+      display: block;
+      background: none;
+      color: #000000;
+      min-height: 0;
+      width: auto;
+      max-width: none;
+      padding: 0;
+      border-radius: 0;
+      font-size: 14pt;
+      transition: none;
+    }
+    .vorzeile, .held-sub, .hinweis, .einleitung, .karte p, .fusszeile { color: #000000; }
+    .karte, .schritte li, .preis-karte { background: #FFFFFF; border: 1px solid #BBBBBB; break-inside: avoid; }
+    .karte p { color: #000000; }
+    .vertrauen { background: #FFFFFF; color: #000000; border: 1px solid #000000; break-inside: avoid; }
+    .vertrauen h2 { color: #000000; }
+    .merkmale li { border-color: #999999; }
+    .schlusszeile { color: #000000; }
+    .schritte li::before { color: #000000; }
+    footer { border-top: 1pt solid #000000; }
+  }
+
+</style>
+<style>
+  /* --- Bedienoberflaeche (nur Admin, nicht Teil der echten Seite) --- */
+  .adm-leiste {
+    position: sticky; top: 0; z-index: 100;
+    background: #1D1D1F; color: #FFFFFF;
+  }
+  .adm-leiste-innen {
+    max-width: 1100px; margin: 0 auto; padding: 10px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  .adm-titel { font-size: 16px; font-weight: 600; margin-right: auto; }
+  .adm-knopf {
+    font: inherit; font-size: 15px; font-weight: 600;
+    border: 0; border-radius: 980px; padding: 12px 20px; min-height: 44px;
+    cursor: pointer; color: #FFFFFF; background: #3A3A3C;
+  }
+  .adm-knopf:hover { background: #4A4A4C; }
+  .adm-knopf-blau { background: var(--blau); }
+  .adm-knopf-blau:hover { background: var(--blau-hell); }
+  .adm-knopf:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+  .adm-status { font-size: 14px; color: #C7C7CC; flex-basis: 100%; min-height: 18px; }
+
+  .adm-hinweis {
+    background: #E8F1FB; color: #1D1D1F;
+    border-bottom: 1px solid var(--linie);
+    font-size: 16px; line-height: 1.5;
+  }
+  .adm-hinweis-innen { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
+  .adm-hinweis ol { margin: 8px 0 0 22px; }
+  .adm-hinweis li { margin-top: 4px; }
+  .adm-hinweis a { color: var(--blau); }
+
+  /* Die echte Seite darunter - Navigation nicht klebend, damit nur eine Leiste klebt */
+  .adm-seite .leiste { position: static; }
+
+  /* Umrandete, bearbeitbare Textstellen */
+  .bearbeitbar {
+    outline: 1px dashed #9B9BA1;
+    outline-offset: 3px;
+    border-radius: 2px;
+    cursor: text;
+  }
+  .bearbeitbar.adm-block { display: block; }
+  .bearbeitbar:hover { outline: 1px solid var(--blau); background: rgba(0, 102, 204, 0.06); }
+  .bearbeitbar:focus {
+    outline: 2px solid var(--blau); outline-offset: 3px;
+    background: rgba(0, 102, 204, 0.10);
+  }
+  .vertrauen .bearbeitbar { outline-color: #8E8E93; }
+  .vertrauen .bearbeitbar:hover, .vertrauen .bearbeitbar:focus {
+    outline-color: #7FB3E8; background: rgba(127, 179, 232, 0.14);
+  }
+  .pille .bearbeitbar, .pille-klein .bearbeitbar { outline-color: rgba(255, 255, 255, 0.8); }
+  .pille .bearbeitbar:hover, .pille .bearbeitbar:focus,
+  .pille-klein .bearbeitbar:hover, .pille-klein .bearbeitbar:focus {
+    outline-color: #FFFFFF; background: rgba(255, 255, 255, 0.22);
+  }
+
+  /* Kasten fuer nicht sichtbare Angaben */
+  .adm-panel { background: #E8E8ED; border-top: 1px solid var(--linie); }
+  .adm-panel-innen { max-width: 760px; margin: 0 auto; padding: 32px 18px 48px; }
+  .adm-panel h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  .adm-panel > .adm-panel-innen > p { color: var(--neben); font-size: 16px; margin-top: 6px; }
+  .adm-feld { margin-top: 18px; }
+  .adm-feld label { display: block; font-size: 14px; font-weight: 600; color: #48484A; margin-bottom: 6px; }
+  .adm-feld input {
+    width: 100%; font: inherit; font-size: 16px; color: var(--tinte);
+    background: #FFFFFF; border: 1px solid #B9B9BF; border-radius: 10px; padding: 12px 14px;
+  }
+  .adm-feld input:focus { outline: 2px solid var(--blau); outline-offset: 1px; }
+  .adm-feld small { display: block; color: #48484A; font-size: 13.5px; margin-top: 5px; }
+
+  @media (max-width: 400px) {
+    .adm-knopf { font-size: 14px; padding: 12px 14px; }
+    .adm-titel { flex-basis: 100%; }
+  }
 </style>
 </head>
 <body>
 
+<div class="adm-leiste">
+  <div class="adm-leiste-innen">
+    <span class="adm-titel">Abbe Technikhilfe · Texte bearbeiten</span>
+    <button type="button" class="adm-knopf" id="knopf-vorschau">Vorschau</button>
+    <button type="button" class="adm-knopf adm-knopf-blau" id="knopf-laden">index.html herunterladen</button>
+    <button type="button" class="adm-knopf" id="knopf-reset">Zurücksetzen</button>
+    <span class="adm-status" id="status" aria-live="polite">Klicken Sie auf einen umrandeten Text, um ihn zu ändern.</span>
+  </div>
+</div>
+
+<div class="adm-hinweis">
+  <div class="adm-hinweis-innen">
+    <strong>So veröffentlichen Sie Ihre Änderungen:</strong>
+    <ol>
+      <li>Umrandeten Text anklicken und überschreiben. Alles wird sofort in diesem Browser gespeichert.</li>
+      <li>Auf „index.html herunterladen“ klicken.</li>
+      <li><a href="https://github.com/eliseosafadi/Abbe-Technikhilfe/upload/main" target="_blank" rel="noopener">Diesen GitHub-Link öffnen</a>, die Datei hineinziehen, auf „Commit changes“ klicken — nach ein bis zwei Minuten ist die Seite aktualisiert.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="adm-seite" id="seite">
 <nav class="leiste">
   <div class="leiste-innen">
-    <span class="marke">Abbe Technikhilfe · Admin</span>
-    <a href="index.html">Seite ansehen</a>
+    <span class="marke"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="marke" data-fett="0" role="textbox" tabindex="0" title="Name in der Leiste — zum Ändern anklicken">Abbe Technikhilfe</span></span>
+    <a class="pille-klein" href="tel:+49451XXXXXXX"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="nav_knopf" data-fett="0" role="textbox" tabindex="0" title="Knopf in der Leiste — zum Ändern anklicken">Anrufen</span></a>
   </div>
 </nav>
 
-<main>
-  <h1>Texte bearbeiten</h1>
-  <p class="einfuehrung">Hier können Sie jeden Text der Startseite ändern. Ihre Eingaben werden automatisch in diesem Browser gespeichert — online geht die Änderung erst, wenn Sie die neue Datei bei GitHub hochladen.</p>
-  <div class="hilfekasten">
-    <strong>So veröffentlichen Sie Ihre Änderungen:</strong>
-    <ol>
-      <li>Texte unten ändern und mit „Vorschau“ prüfen.</li>
-      <li>„Neue index.html herunterladen“ anklicken.</li>
-      <li><a href="https://github.com/eliseosafadi/Abbe-Technikhilfe/upload/main" target="_blank" rel="noopener">Diesen GitHub-Link öffnen</a>, die heruntergeladene Datei in das Fenster ziehen und auf „Commit changes“ klicken.</li>
-    </ol>
-    <p>Die alte Startseite wird dabei ersetzt; nach ein bis zwei Minuten ist die Änderung online. Fettdruck: **so markierte Wörter** erscheinen fett.</p>
+<header class="band">
+  <div class="buehne">
+    <p class="vorzeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="vorzeile" data-fett="0" role="textbox" tabindex="0" title="Kleine blaue Zeile — zum Ändern anklicken">Technikhilfe zuhause · Lübeck &amp; Umgebung</span></p>
+    <h1><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="ueberschrift" data-fett="0" role="textbox" tabindex="0" title="Große Überschrift — zum Ändern anklicken">Hilfe bei Handy, Computer &amp; Internet — bei Ihnen zuhause.</span></h1>
+    <p class="held-sub"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="unterzeile" data-fett="0" role="textbox" tabindex="0" title="Text unter der Überschrift — zum Ändern anklicken">Mein Name ist Eliseo Abbe. Ich komme zu Ihnen nach Hause und helfe geduldig bei allem, was mit Technik zu tun hat. Ohne Fachbegriffe, ohne Zeitdruck — Sie bestimmen das Tempo.</span></p>
+    <div class="aktion"><a class="pille" href="tel:+49451XXXXXXX"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a></div>
+    <p class="hinweis"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="hinweis" data-fett="0" role="textbox" tabindex="0" title="Zeile unter dem Anruf-Knopf — zum Ändern anklicken">Montag bis Samstag erreichbar. Wenn ich gerade bei einem Termin bin, rufe ich zuverlässig zurück.</span></p>
   </div>
-  <form id="formular"></form>
+</header>
+
+<main>
+
+  <section class="band band-grau">
+    <div class="buehne">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_hilfe" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Wobei ich helfe</span></h2>
+      <p class="einleitung"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="intro_hilfe" data-fett="0" role="textbox" tabindex="0" title="Einleitungssatz — zum Ändern anklicken">Zum Beispiel bei diesen Dingen — und bei allem anderen, das einen Stecker oder einen Bildschirm hat:</span></p>
+      <div class="karten">
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte1_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 1: Titel — zum Ändern anklicken">WhatsApp einrichten</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte1_text" data-fett="0" role="textbox" tabindex="0" title="Karte 1: Text — zum Ändern anklicken">Damit Sie Fotos und Nachrichten von Kindern und Enkeln bekommen.</span></p>
+        </div>
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte2_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 2: Titel — zum Ändern anklicken">Neues Handy oder Tablet</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte2_text" data-fett="0" role="textbox" tabindex="0" title="Karte 2: Text — zum Ändern anklicken">Einrichten, erklären und alle Daten vom alten Gerät übertragen.</span></p>
+        </div>
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte3_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 3: Titel — zum Ändern anklicken">Sicherheit</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte3_text" data-fett="0" role="textbox" tabindex="0" title="Karte 3: Text — zum Ändern anklicken">Schutz vor Betrugs-Mails, falschen Anrufen und Abzocke im Internet.</span></p>
+        </div>
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte4_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 4: Titel — zum Ändern anklicken">Online-Banking</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte4_text" data-fett="0" role="textbox" tabindex="0" title="Karte 4: Text — zum Ändern anklicken">In Ruhe und sicher einrichten, Schritt für Schritt erklärt.</span></p>
+        </div>
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte5_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 5: Titel — zum Ändern anklicken">Drucker, WLAN und Fernseher</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte5_text" data-fett="0" role="textbox" tabindex="0" title="Karte 5: Text — zum Ändern anklicken">Wieder zum Laufen bringen.</span></p>
+        </div>
+        <div class="karte">
+          <h3><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte6_titel" data-fett="0" role="textbox" tabindex="0" title="Karte 6: Titel — zum Ändern anklicken">Termine im Internet</span></h3>
+          <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="karte6_text" data-fett="0" role="textbox" tabindex="0" title="Karte 6: Text — zum Ändern anklicken">Arzttermine oder Behördengänge gemeinsam online erledigen.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="buehne">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_besuch" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">So läuft ein Besuch ab</span></h2>
+      <ol class="schritte">
+        <li><p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="schritt1" data-fett="0" role="textbox" tabindex="0" title="Schritt 1 — zum Ändern anklicken">Sie rufen an und schildern mir Ihr Anliegen. Wir finden einen Termin, der Ihnen passt.</span></p></li>
+        <li><p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="schritt2" data-fett="0" role="textbox" tabindex="0" title="Schritt 2 — zum Ändern anklicken">Ich komme pünktlich zu Ihnen nach Hause. Wir lösen das Problem gemeinsam — ich erkläre jeden Schritt, Sie machen mit, so viel Sie möchten.</span></p></li>
+        <li><p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="schritt3" data-fett="0" role="textbox" tabindex="0" title="Schritt 3 — zum Ändern anklicken">Zum Schluss bekommen Sie von mir einen Merkzettel in großer Schrift, damit Sie alles Wichtige nachlesen können.</span></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="buehne">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_preis" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Was es kostet</span></h2>
+      <div class="preis-karte">
+        <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="preis_text" data-fett="1" role="textbox" tabindex="0" title="Preistext — zum Ändern anklicken">Ein Besuch (bis 60 Minuten) kostet <strong>39 Euro</strong>, dazu kommt eine Anfahrtspauschale von <strong>5 Euro</strong> innerhalb Lübecks bzw. <strong>10 Euro</strong> im Umland (z. B. Travemünde, Bad Schwartau). Keine Vertragsbindung, keine versteckten Kosten, kein Cent mehr als vereinbart. Sie zahlen, wie es Ihnen lieber ist: in bar oder bequem per Rechnung. <strong>Und wenn ich Ihr Problem nicht lösen kann, kostet Sie der Besuch nichts.</strong></span></p>
+      </div>
+      <!-- Bewusst KEIN Abo-Modell auf der Seite — kommt evtl. später nach dem Markttest. -->
+      <div class="aktion"><a class="pille" href="tel:+49451XXXXXXX"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="buehne">
+      <div class="vertrauen">
+        <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_vertrauen" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Daran erkennen Sie mich</span></h2>
+        <ul class="merkmale">
+          <li><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="merkmal1" data-fett="1" role="textbox" tabindex="0" title="Punkt 1 — zum Ändern anklicken">Ich rufe Sie <strong>niemals unaufgefordert</strong> an. Sie rufen mich an — nie umgekehrt.</span></li>
+          <li><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="merkmal2" data-fett="1" role="textbox" tabindex="0" title="Punkt 2 — zum Ändern anklicken">Ich frage <strong>niemals</strong> nach PIN, Passwörtern oder TAN. Bei Eingaben schaue ich weg.</span></li>
+          <li><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="merkmal3" data-fett="1" role="textbox" tabindex="0" title="Punkt 3 — zum Ändern anklicken">Ihre Daten bleiben bei Ihnen. Ich installiere nichts ohne Ihre Zustimmung und erkläre vorher, was ich tue.</span></li>
+          <li><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="merkmal4" data-fett="1" role="textbox" tabindex="0" title="Punkt 4 — zum Ändern anklicken">Sie bekommen immer eine ordentliche Rechnung mit meinem vollen Namen und meiner Anschrift.</span></li>
+        </ul>
+        <p class="schlusszeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="schlusszeile" data-fett="0" role="textbox" tabindex="0" title="Kursive Schlusszeile — zum Ändern anklicken">Zeigen Sie diese Seite gern Ihren Angehörigen — gesundes Misstrauen ist völlig richtig.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="lese">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_ueber" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Über mich</span></h2>
+      <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="ueber_text" data-fett="0" role="textbox" tabindex="0" title="Text — zum Ändern anklicken">Ich bin Eliseo Abbe, 20 Jahre alt, und lebe in [STADTTEIL]. Mit Technik bin ich aufgewachsen — sie ist für mich Alltag, seit ich denken kann. In meinem früheren Beruf habe ich vielen älteren Menschen bei ihrer Technik geholfen, und meinen eigenen Großeltern helfe ich bis heute regelmäßig. Dabei habe ich eines gelernt: Mit genug Ruhe und den richtigen Worten verliert jede Technik ihren Schrecken.</span></p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="lese">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_angehoerige" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Für Angehörige</span></h2>
+      <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="angehoerige_text" data-fett="0" role="textbox" tabindex="0" title="Text — zum Ändern anklicken">Sie wohnen nicht in der Nähe und möchten, dass jemand Ihrer Mutter oder Ihrem Vater geduldig hilft? Rufen Sie mich an oder schreiben Sie mir — wir besprechen kurz, worum es geht, und ich kümmere mich. Auf Wunsch bekommen Sie nach jedem Besuch eine kurze Rückmeldung. Ein Besuch lässt sich auch gut verschenken. Die Kosten sind als haushaltsnahe Dienstleistung in vielen Fällen steuerlich absetzbar (§&nbsp;35a EStG — keine Steuerberatung).</span></p>
+      <!-- TODO: sobald WhatsApp Business eingerichtet ist, hier wa.me-Link ergänzen -->
+      <p class="mailzeile"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="mail_hinweis" data-fett="0" role="textbox" tabindex="0" title="Zeile vor der E-Mail — zum Ändern anklicken">Nachricht an:</span> <a href="mailto:[E-MAIL]"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="email" data-fett="0" role="textbox" tabindex="0" title="E-Mail-Adresse — zum Ändern anklicken">[E-MAIL]</span></a></p>
+    </div>
+  </section>
+
+  <section class="band band-grau">
+    <div class="lese">
+      <h2><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="h2_fragen" data-fett="0" role="textbox" tabindex="0" title="Überschrift — zum Ändern anklicken">Häufige Fragen</span></h2>
+      <div class="fragen-liste">
+        <p><strong><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="frage1" data-fett="0" role="textbox" tabindex="0" title="Frage 1 — zum Ändern anklicken">Muss ich etwas vorbereiten?</span></strong>
+        <span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="antwort1" data-fett="0" role="textbox" tabindex="0" title="Antwort 1 — zum Ändern anklicken">Nein. Es hilft, wenn Geräte und — falls vorhanden — Zettel mit Zugangsdaten griffbereit liegen. Den Rest machen wir zusammen.</span></p>
+        <p><strong><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="frage2" data-fett="0" role="textbox" tabindex="0" title="Frage 2 — zum Ändern anklicken">Was ist, wenn Sie das Problem nicht lösen können?</span></strong>
+        <span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="antwort2" data-fett="0" role="textbox" tabindex="0" title="Antwort 2 — zum Ändern anklicken">Dann sage ich Ihnen das ehrlich, und der Besuch kostet Sie nichts. Wir überlegen dann gemeinsam, wer Ihnen weiterhelfen kann.</span></p>
+        <p><strong><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="frage3" data-fett="0" role="textbox" tabindex="0" title="Frage 3 — zum Ändern anklicken">Verkaufen Sie mir etwas?</span></strong>
+        <span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="antwort3" data-fett="0" role="textbox" tabindex="0" title="Antwort 3 — zum Ändern anklicken">Nein. Ich verkaufe keine Geräte und keine Verträge. Wenn ein Kauf sinnvoll ist, berate ich Sie neutral — entscheiden tun Sie.</span></p>
+        <p><strong><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="frage4" data-fett="0" role="textbox" tabindex="0" title="Frage 4 — zum Ändern anklicken">Wie schnell bekomme ich einen Termin?</span></strong>
+        <span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="antwort4" data-fett="0" role="textbox" tabindex="0" title="Antwort 4 — zum Ändern anklicken">In der Regel innerhalb weniger Tage, oft schneller.</span></p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<div class="aktionen">
-  <div class="aktionen-innen">
-    <button type="button" class="knopf-grau" id="knopf-vorschau">Vorschau</button>
-    <button type="button" class="knopf-blau" id="knopf-laden">Neue index.html herunterladen</button>
-    <button type="button" class="knopf-grau" id="knopf-reset">Zurücksetzen</button>
-    <span class="status" id="status" aria-live="polite"></span>
+<footer>
+  <div class="buehne">
+    <a class="pille" href="tel:+49451XXXXXXX"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a>
+    <p class="fusszeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="fuss_zeile1" data-fett="0" role="textbox" tabindex="0" title="Erste Fußzeile — zum Ändern anklicken">Abbe Technikhilfe · Inhaber: Eliseo Abbe · [ADRESSE] · Telefon [0451-NUMMER] · [E-MAIL]</span></p>
+    <p class="fusszeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="fuss_zeile2" data-fett="0" role="textbox" tabindex="0" title="Zweite Fußzeile — zum Ändern anklicken">Einzugsgebiet: Lübeck, Travemünde, Bad Schwartau und Umgebung</span></p>
+    <p class="fusslinks"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
   </div>
+</footer>
 </div>
+
+<section class="adm-panel">
+  <div class="adm-panel-innen">
+    <h2>Nicht sichtbare Angaben</h2>
+    <p>Diese Angaben stehen nicht im Seitentext, wirken aber mit: die Nummer, die beim Antippen des Knopfes gewählt wird, und die Angaben für Google.</p>
+    <div id="panel"></div>
+  </div>
+</section>
 
 <script>
 function h(t) {
   return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/ /g, '&nbsp;');
+    .replace(/"/g, '&quot;').replace(/\u00a0/g, '&nbsp;');
 }
 function f(t) {
   return h(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -161,15 +504,15 @@ const START = {
  "antwort4": "In der Regel innerhalb weniger Tage, oft schneller.",
  "fuss_zeile1": "Abbe Technikhilfe · Inhaber: Eliseo Abbe · [ADRESSE] · Telefon [0451-NUMMER] · [E-MAIL]",
  "fuss_zeile2": "Einzugsgebiet: Lübeck, Travemünde, Bad Schwartau und Umgebung",
+ "telefon_link": "+49451XXXXXXX",
  "titel_seite": "Abbe Technikhilfe Lübeck — Hilfe bei Handy & Computer zuhause für Senioren",
  "meta_beschreibung": "Abbe Technikhilfe: geduldige Hilfe bei Handy, Computer und Internet bei Ihnen zuhause in Lübeck. Festpreis, keine Vertragsbindung. Telefon [0451-NUMMER].",
- "telefon_link": "+49451XXXXXXX",
  "telefon_daten": "+49451XXXXXXX",
  "adresse_daten": "[ADRESSE]",
  "preisspanne": "39–49 €"
 };
 
-const FELDER = [{"key": "marke", "label": "Name oben in der Leiste", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "nav_knopf", "label": "Knopf in der Leiste", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "vorzeile", "label": "Kleine blaue Zeile über der Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "ueberschrift", "label": "Große Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "unterzeile", "label": "Text unter der Überschrift", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "knopf_text", "label": "Beschriftung der großen Anruf-Knöpfe (3×)", "gruppe": "Seitenkopf & Navigation", "hilfe": "Erscheint oben, beim Preis und im Fußbereich."}, {"key": "hinweis", "label": "Kleine Zeile unter dem Anruf-Knopf", "gruppe": "Seitenkopf & Navigation", "hilfe": null}, {"key": "h2_hilfe", "label": "Überschrift des Abschnitts", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "intro_hilfe", "label": "Einleitungssatz", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte1_titel", "label": "Karte 1 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte1_text", "label": "Karte 1 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte2_titel", "label": "Karte 2 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte2_text", "label": "Karte 2 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte3_titel", "label": "Karte 3 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte3_text", "label": "Karte 3 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte4_titel", "label": "Karte 4 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte4_text", "label": "Karte 4 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte5_titel", "label": "Karte 5 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte5_text", "label": "Karte 5 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte6_titel", "label": "Karte 6 — Titel", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "karte6_text", "label": "Karte 6 — Text", "gruppe": "Wobei ich helfe", "hilfe": null}, {"key": "h2_besuch", "label": "Überschrift des Abschnitts", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt1", "label": "Schritt 1", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt2", "label": "Schritt 2", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "schritt3", "label": "Schritt 3", "gruppe": "So läuft ein Besuch ab", "hilfe": null}, {"key": "h2_preis", "label": "Überschrift des Abschnitts", "gruppe": "Was es kostet", "hilfe": null}, {"key": "preis_text", "label": "Preistext", "gruppe": "Was es kostet", "hilfe": "**so markierte Wörter** erscheinen fett."}, {"key": "h2_vertrauen", "label": "Überschrift des Kastens", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal1", "label": "Punkt 1", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal2", "label": "Punkt 2", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal3", "label": "Punkt 3", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "merkmal4", "label": "Punkt 4", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "schlusszeile", "label": "Kursive Schlusszeile", "gruppe": "Daran erkennen Sie mich", "hilfe": null}, {"key": "h2_ueber", "label": "Überschrift des Abschnitts", "gruppe": "Über mich", "hilfe": null}, {"key": "ueber_text", "label": "Text", "gruppe": "Über mich", "hilfe": "[STADTTEIL] durch den echten Stadtteil ersetzen."}, {"key": "h2_angehoerige", "label": "Überschrift des Abschnitts", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "angehoerige_text", "label": "Text", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "mail_hinweis", "label": "Zeile vor der E-Mail-Adresse", "gruppe": "Für Angehörige", "hilfe": null}, {"key": "email", "label": "E-Mail-Adresse", "gruppe": "Für Angehörige", "hilfe": "Wird als Link und als sichtbarer Text verwendet."}, {"key": "h2_fragen", "label": "Überschrift des Abschnitts", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage1", "label": "Frage 1", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort1", "label": "Antwort 1", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage2", "label": "Frage 2", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort2", "label": "Antwort 2", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage3", "label": "Frage 3", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort3", "label": "Antwort 3", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "frage4", "label": "Frage 4", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "antwort4", "label": "Antwort 4", "gruppe": "Häufige Fragen", "hilfe": null}, {"key": "fuss_zeile1", "label": "Erste Zeile", "gruppe": "Fußbereich", "hilfe": null}, {"key": "fuss_zeile2", "label": "Zweite Zeile", "gruppe": "Fußbereich", "hilfe": null}, {"key": "titel_seite", "label": "Seitentitel (Browser-Tab & Google)", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "meta_beschreibung", "label": "Beschreibung für Google (max. 155 Zeichen)", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "telefon_link", "label": "Telefonnummer für die Anruf-Funktion", "gruppe": "Technik & Suchmaschinen", "hilfe": "Im Format +49451… ohne Leerzeichen. Steuert, welche Nummer beim Antippen gewählt wird."}, {"key": "telefon_daten", "label": "Telefonnummer für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "adresse_daten", "label": "Straße & Hausnummer für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}, {"key": "preisspanne", "label": "Preisspanne für Suchmaschinen-Daten", "gruppe": "Technik & Suchmaschinen", "hilfe": null}];
+const FELDER = [{"key": "marke", "label": "Name in der Leiste", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "nav_knopf", "label": "Knopf in der Leiste", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "vorzeile", "label": "Kleine blaue Zeile", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "ueberschrift", "label": "Große Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "unterzeile", "label": "Text unter der Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "knopf_text", "label": "Anruf-Knopf (alle drei zugleich)", "hilfe": "Der Text erscheint oben, beim Preis und im Fußbereich.", "sichtbar": true, "fett": false, "gruppe": null}, {"key": "hinweis", "label": "Zeile unter dem Anruf-Knopf", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_hilfe", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "intro_hilfe", "label": "Einleitungssatz", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte1_titel", "label": "Karte 1: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte1_text", "label": "Karte 1: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte2_titel", "label": "Karte 2: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte2_text", "label": "Karte 2: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte3_titel", "label": "Karte 3: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte3_text", "label": "Karte 3: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte4_titel", "label": "Karte 4: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte4_text", "label": "Karte 4: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte5_titel", "label": "Karte 5: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte5_text", "label": "Karte 5: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte6_titel", "label": "Karte 6: Titel", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "karte6_text", "label": "Karte 6: Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_besuch", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "schritt1", "label": "Schritt 1", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "schritt2", "label": "Schritt 2", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "schritt3", "label": "Schritt 3", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_preis", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "preis_text", "label": "Preistext", "hilfe": "Fettdruck bleibt beim Tippen erhalten.", "sichtbar": true, "fett": true, "gruppe": null}, {"key": "h2_vertrauen", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "merkmal1", "label": "Punkt 1", "hilfe": null, "sichtbar": true, "fett": true, "gruppe": null}, {"key": "merkmal2", "label": "Punkt 2", "hilfe": null, "sichtbar": true, "fett": true, "gruppe": null}, {"key": "merkmal3", "label": "Punkt 3", "hilfe": null, "sichtbar": true, "fett": true, "gruppe": null}, {"key": "merkmal4", "label": "Punkt 4", "hilfe": null, "sichtbar": true, "fett": true, "gruppe": null}, {"key": "schlusszeile", "label": "Kursive Schlusszeile", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_ueber", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "ueber_text", "label": "Text", "hilfe": "[STADTTEIL] durch den echten Stadtteil ersetzen.", "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_angehoerige", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "angehoerige_text", "label": "Text", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "mail_hinweis", "label": "Zeile vor der E-Mail", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "email", "label": "E-Mail-Adresse", "hilfe": "Wird als Link und als sichtbarer Text verwendet.", "sichtbar": true, "fett": false, "gruppe": null}, {"key": "h2_fragen", "label": "Überschrift", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "frage1", "label": "Frage 1", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "antwort1", "label": "Antwort 1", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "frage2", "label": "Frage 2", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "antwort2", "label": "Antwort 2", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "frage3", "label": "Frage 3", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "antwort3", "label": "Antwort 3", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "frage4", "label": "Frage 4", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "antwort4", "label": "Antwort 4", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "fuss_zeile1", "label": "Erste Fußzeile", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "fuss_zeile2", "label": "Zweite Fußzeile", "hilfe": null, "sichtbar": true, "fett": false, "gruppe": null}, {"key": "telefon_link", "label": "Telefonnummer zum Wählen", "hilfe": "Format +49451… ohne Leerzeichen. Bestimmt, welche Nummer beim Antippen gewählt wird.", "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}, {"key": "titel_seite", "label": "Seitentitel (Browser-Tab und Google)", "hilfe": null, "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}, {"key": "meta_beschreibung", "label": "Beschreibung für Google (max. 155 Zeichen)", "hilfe": null, "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}, {"key": "telefon_daten", "label": "Telefonnummer für Suchmaschinen", "hilfe": null, "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}, {"key": "adresse_daten", "label": "Anschrift für Suchmaschinen", "hilfe": null, "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}, {"key": "preisspanne", "label": "Preisspanne für Suchmaschinen", "hilfe": null, "sichtbar": false, "fett": false, "gruppe": "Nicht sichtbare Angaben"}];
 
 const VORLAGE = (w) => `<!DOCTYPE html>
 <html lang="de">
@@ -532,57 +875,131 @@ const VORLAGE = (w) => `<!DOCTYPE html>
 `;
 
 const SPEICHER = 'abbe-admin-texte';
+const NACH_KEY = {};
+FELDER.forEach((fd) => { NACH_KEY[fd.key] = fd; });
 
-function geladen() {
-  let w = Object.assign({}, START);
-  try {
-    const s = JSON.parse(localStorage.getItem(SPEICHER) || '{}');
-    for (const k in s) if (k in w && typeof s[k] === 'string') w[k] = s[k];
-  } catch (e) { /* Gespeichertes unlesbar - Startwerte verwenden */ }
-  return w;
+/* Liest eine bearbeitbare Stelle aus. Bei Fett-Feldern werden <strong>/<b>
+   und fett formatierte Bereiche wieder zu **Sternchen**. */
+function lesenKnoten(el) {
+  let aus = '';
+  el.childNodes.forEach((n) => {
+    if (n.nodeType === 3) { aus += n.nodeValue; return; }
+    if (n.nodeType !== 1) return;
+    const tag = n.nodeName.toLowerCase();
+    if (tag === 'br') { aus += ' '; return; }
+    const innen = lesenKnoten(n);
+    const gewicht = (n.style && n.style.fontWeight) || '';
+    const istFett = tag === 'strong' || tag === 'b' ||
+      gewicht === 'bold' || gewicht === 'bolder' || parseInt(gewicht, 10) >= 600;
+    aus += (istFett && innen.trim()) ? '**' + innen + '**' : innen;
+  });
+  return aus;
+}
+function lesenFeld(key) {
+  const fd = NACH_KEY[key];
+  if (!fd.sichtbar) {
+    const inp = document.querySelector('#panel [data-key="' + key + '"]');
+    return inp ? inp.value : START[key];
+  }
+  const el = document.querySelector('#seite [data-key="' + key + '"]');
+  if (!el) return START[key];
+  return fd.fett ? lesenKnoten(el) : el.textContent;
 }
 function werteAktuell() {
-  const w = Object.assign({}, START);
-  document.querySelectorAll('#formular [data-key]').forEach((el) => { w[el.dataset.key] = el.value; });
+  const w = {};
+  FELDER.forEach((fd) => { w[fd.key] = lesenFeld(fd.key); });
   return w;
 }
-function speichern() { localStorage.setItem(SPEICHER, JSON.stringify(werteAktuell())); }
+function setzenFeld(key, wert) {
+  const fd = NACH_KEY[key];
+  if (!fd.sichtbar) {
+    const inp = document.querySelector('#panel [data-key="' + key + '"]');
+    if (inp) inp.value = wert;
+    return;
+  }
+  document.querySelectorAll('#seite [data-key="' + key + '"]').forEach((el) => {
+    if (fd.fett) el.innerHTML = f(wert); else el.textContent = wert;
+  });
+}
+function speichern() {
+  try { localStorage.setItem(SPEICHER, JSON.stringify(werteAktuell())); }
+  catch (e) { melden('Konnte nicht gespeichert werden'); }
+}
 function melden(t) {
   const s = document.getElementById('status');
   s.textContent = t;
   clearTimeout(melden.timer);
-  melden.timer = setTimeout(() => { s.textContent = ''; }, 3000);
+  melden.timer = setTimeout(() => {
+    s.textContent = 'Klicken Sie auf einen umrandeten Text, um ihn zu ändern.';
+  }, 3000);
 }
 function erzeugen() { return VORLAGE(werteAktuell()); }
 
-function bauen() {
-  const form = document.getElementById('formular');
-  const werte = geladen();
+/* Kasten mit den nicht sichtbaren Angaben aufbauen */
+(function panelBauen() {
   let html = '';
-  let gruppe = null;
-  for (const feld of FELDER) {
-    if (feld.gruppe !== gruppe) {
-      if (gruppe !== null) html += '</section>';
-      gruppe = feld.gruppe;
-      html += '<section class="gruppe"><h2>' + h(gruppe) + '</h2>';
-    }
-    const wert = werte[feld.key];
-    const id = 'feld-' + feld.key;
-    html += '<div class="feld"><label for="' + id + '">' + h(feld.label) + '</label>';
-    if (wert.length > 70) {
-      html += '<textarea id="' + id + '" data-key="' + feld.key + '" rows="' +
-        Math.max(2, Math.ceil(wert.length / 70)) + '">' + h(wert) + '</textarea>';
-    } else {
-      html += '<input id="' + id + '" data-key="' + feld.key + '" type="text" value="' + h(wert) + '">';
-    }
-    if (feld.hilfe) html += '<small>' + h(feld.hilfe) + '</small>';
-    html += '</div>';
-  }
-  html += '</section>';
-  form.innerHTML = html;
-  form.addEventListener('submit', (e) => e.preventDefault());
-  form.addEventListener('input', () => { speichern(); melden('Gespeichert (nur in diesem Browser)'); });
-}
+  FELDER.filter((fd) => !fd.sichtbar).forEach((fd) => {
+    const id = 'feld-' + fd.key;
+    html += '<div class="adm-feld"><label for="' + id + '">' + h(fd.label) + '</label>' +
+      '<input id="' + id + '" data-key="' + fd.key + '" type="text" value="' + h(START[fd.key]) + '">' +
+      (fd.hilfe ? '<small>' + h(fd.hilfe) + '</small>' : '') + '</div>';
+  });
+  document.getElementById('panel').innerHTML = html;
+})();
+
+/* Gespeicherten Stand wiederherstellen */
+(function wiederherstellen() {
+  let gespeichert = {};
+  try { gespeichert = JSON.parse(localStorage.getItem(SPEICHER) || '{}'); }
+  catch (e) { gespeichert = {}; }
+  let anzahl = 0;
+  FELDER.forEach((fd) => {
+    const v = gespeichert[fd.key];
+    if (typeof v === 'string' && v !== START[fd.key]) { setzenFeld(fd.key, v); anzahl++; }
+  });
+  if (anzahl) melden(anzahl + ' geänderte Stelle(n) aus diesem Browser geladen');
+})();
+
+const seite = document.getElementById('seite');
+
+/* Links im Vorschaubereich fuehren nirgendwohin - hier wird nur bearbeitet */
+seite.querySelectorAll('a').forEach((a) => { a.draggable = false; });
+seite.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (a) e.preventDefault();
+});
+
+/* Fett lieber als <b>-Tag statt als Style erzeugen */
+try { document.execCommand('styleWithCSS', false, false); } catch (e) { /* nicht unterstuetzt */ }
+
+/* Aenderungen uebernehmen: Zwillinge angleichen und speichern */
+seite.addEventListener('input', (e) => {
+  const el = e.target.closest('.bearbeitbar');
+  if (!el) return;
+  const key = el.dataset.key;
+  const wert = NACH_KEY[key].fett ? lesenKnoten(el) : el.textContent;
+  document.querySelectorAll('#seite [data-key="' + key + '"]').forEach((z) => {
+    if (z === el) return;
+    if (NACH_KEY[key].fett) z.innerHTML = f(wert); else z.textContent = wert;
+  });
+  speichern();
+  melden('Gespeichert (nur in diesem Browser)');
+});
+document.getElementById('panel').addEventListener('input', () => {
+  speichern();
+  melden('Gespeichert (nur in diesem Browser)');
+});
+
+/* Zeilenumbrueche und formatierte Einfuegungen verhindern */
+seite.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.closest('.bearbeitbar')) e.preventDefault();
+});
+seite.addEventListener('paste', (e) => {
+  if (!e.target.closest('.bearbeitbar')) return;
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\s+/g, ' ');
+  document.execCommand('insertText', false, text);
+});
 
 document.getElementById('knopf-vorschau').addEventListener('click', () => {
   const b = new Blob([erzeugen()], { type: 'text/html' });
@@ -596,7 +1013,7 @@ document.getElementById('knopf-laden').addEventListener('click', () => {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  melden('Datei heruntergeladen — jetzt bei GitHub hochladen');
+  melden('Heruntergeladen — jetzt bei GitHub hochladen');
 });
 document.getElementById('knopf-reset').addEventListener('click', () => {
   if (confirm('Alle Änderungen verwerfen und die ursprünglichen Texte wiederherstellen?')) {
@@ -604,8 +1021,6 @@ document.getElementById('knopf-reset').addEventListener('click', () => {
     location.reload();
   }
 });
-
-bauen();
 </script>
 </body>
 </html>
