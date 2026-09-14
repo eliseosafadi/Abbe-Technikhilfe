@@ -5,11 +5,15 @@ Die Texte werden ueber ihre Umgebung (Praefix/Suffix) gefunden, nicht als
 feste Zeichenketten. Dadurch laesst sich die Admin-Seite jederzeit neu
 bauen — auch nachdem Texte ueber sie geaendert wurden.
 """
-import json, re, sys
+import hashlib, json, re, sys
 
 REPO = sys.argv[1] if len(sys.argv) > 1 else "/home/user/Abbe-Technikhilfe"
 VORLAGE_DATEI = sys.argv[2] if len(sys.argv) > 2 else "admin_vorlage.html"
-html = open(f"{REPO}/index.html", encoding="utf-8").read()
+roh = open(f"{REPO}/index.html", "rb").read()
+html = roh.decode("utf-8")
+# Git-Blob-SHA der index.html - genau die "sha", die GitHubs Contents-API meldet.
+# Die Admin-Seite erkennt daran, ob die Seite bei GitHub noch dieselbe ist.
+basis_sha = hashlib.sha1(b"blob " + str(len(roh)).encode() + b"\0" + roh).hexdigest()
 
 schnitt = html.index("-->") + 3
 kopf, rumpf = html[:schnitt], html[schnitt:]
@@ -161,7 +165,8 @@ admin = (open(VORLAGE_DATEI, encoding="utf-8").read()
          .replace("__SEITENSTIL__", stil).replace("__SEITE__", koerper)
          .replace("__START__", json.dumps(werte, ensure_ascii=False, indent=1))
          .replace("__FELDER__", json.dumps(felder, ensure_ascii=False))
-         .replace("__VORLAGE__", vorlage_js))
+         .replace("__VORLAGE__", vorlage_js)
+         .replace("__BASIS_SHA__", basis_sha))
 open(f"{REPO}/admin.html", "w", encoding="utf-8").write(admin)
 s = sum(1 for f in felder if f["sichtbar"])
 print(f"admin.html neu gebaut: {len(felder)} Felder ({s} im Text, {len(felder)-s} im Kasten)")

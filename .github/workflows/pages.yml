@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Code holen
         uses: actions/checkout@v4
+      - name: admin.html aus der aktuellen index.html bauen
+        run: python3 werkzeuge/baue_admin.py . werkzeuge/admin_vorlage.html
       - name: Pages konfigurieren
         uses: actions/configure-pages@v5
         with:

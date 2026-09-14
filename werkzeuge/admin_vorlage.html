@@ -28,8 +28,13 @@ __SEITENSTIL__
   .adm-knopf:hover { background: #4A4A4C; }
   .adm-knopf-blau { background: var(--blau); }
   .adm-knopf-blau:hover { background: var(--blau-hell); }
+  .adm-knopf-rot { background: #8E2A2A; }
+  .adm-knopf-rot:hover { background: #A63434; }
+  .adm-knopf:disabled { opacity: 0.55; cursor: wait; }
   .adm-knopf:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .adm-status { font-size: 14px; color: #C7C7CC; flex-basis: 100%; min-height: 18px; }
+  .adm-status.adm-wichtig { color: #FFFFFF; font-size: 15px; }
+  .adm-status a { color: #9ECBFF; }
 
   .adm-hinweis {
     background: #E8F1FB; color: #1D1D1F;
@@ -37,9 +42,9 @@ __SEITENSTIL__
     font-size: 16px; line-height: 1.5;
   }
   .adm-hinweis-innen { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
-  .adm-hinweis ol { margin: 8px 0 0 22px; }
-  .adm-hinweis li { margin-top: 4px; }
+  .adm-hinweis p + p { margin-top: 6px; }
   .adm-hinweis a { color: var(--blau); }
+  .adm-hinweis .adm-klein { font-size: 14px; color: #48484A; }
 
   /* Die echte Seite darunter - Navigation nicht klebend, damit nur eine Leiste klebt */
   .adm-seite .leiste { position: static; }
@@ -81,6 +86,29 @@ __SEITENSTIL__
   .adm-feld input:focus { outline: 2px solid var(--blau); outline-offset: 1px; }
   .adm-feld small { display: block; color: #48484A; font-size: 13.5px; margin-top: 5px; }
 
+  /* Fenster fuer den Zugangsschluessel */
+  .adm-dialog {
+    border: 0; border-radius: 18px; padding: 0;
+    width: min(92vw, 620px); max-height: 92vh; overflow: auto;
+    color: var(--tinte); background: #FFFFFF;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  }
+  .adm-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+  .adm-dialog-innen { padding: 26px 24px 24px; font-size: 16px; line-height: 1.5; }
+  .adm-dialog h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .adm-dialog p { margin-top: 10px; }
+  .adm-dialog ol { margin: 10px 0 0 22px; }
+  .adm-dialog li { margin-top: 6px; }
+  .adm-dialog a { color: var(--blau); }
+  .adm-dialog input {
+    width: 100%; margin-top: 14px; font: inherit; font-size: 16px; color: var(--tinte);
+    background: #FFFFFF; border: 1px solid #B9B9BF; border-radius: 10px; padding: 12px 14px;
+  }
+  .adm-dialog input:focus { outline: 2px solid var(--blau); outline-offset: 1px; }
+  .adm-dialog-fehler { color: #B3261E; font-weight: 600; min-height: 1.4em; }
+  .adm-dialog-vorhanden { color: #48484A; font-size: 14.5px; }
+  .adm-dialog-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+
   @media (max-width: 400px) {
     .adm-knopf { font-size: 14px; padding: 12px 14px; }
     .adm-titel { flex-basis: 100%; }
@@ -93,20 +121,17 @@ __SEITENSTIL__
   <div class="adm-leiste-innen">
     <span class="adm-titel">Abbe Technikhilfe · Texte bearbeiten</span>
     <button type="button" class="adm-knopf" id="knopf-vorschau">Vorschau</button>
-    <button type="button" class="adm-knopf adm-knopf-blau" id="knopf-laden">index.html herunterladen</button>
+    <button type="button" class="adm-knopf adm-knopf-blau" id="knopf-veroeffentlichen">Veröffentlichen</button>
     <button type="button" class="adm-knopf" id="knopf-reset">Zurücksetzen</button>
-    <span class="adm-status" id="status" aria-live="polite">Klicken Sie auf einen umrandeten Text, um ihn zu ändern.</span>
+    <span class="adm-status" id="status" aria-live="polite">Tippen Sie auf einen umrandeten Text, um ihn zu ändern.</span>
   </div>
 </div>
 
 <div class="adm-hinweis">
   <div class="adm-hinweis-innen">
-    <strong>So veröffentlichen Sie Ihre Änderungen:</strong>
-    <ol>
-      <li>Umrandeten Text anklicken und überschreiben. Alles wird sofort in diesem Browser gespeichert.</li>
-      <li>Auf „index.html herunterladen“ klicken.</li>
-      <li><a href="https://github.com/eliseosafadi/Abbe-Technikhilfe/upload/main" target="_blank" rel="noopener">Diesen GitHub-Link öffnen</a>, die Datei hineinziehen, auf „Commit changes“ klicken — nach ein bis zwei Minuten ist die Seite aktualisiert.</li>
-    </ol>
+    <p><strong>So geht’s:</strong> Umrandeten Text antippen und überschreiben, dann oben auf „Veröffentlichen“ tippen. Nach ein bis zwei Minuten ist die Seite aktualisiert.
+    Beim ersten Mal fragt die Seite einmalig nach einem Zugangsschlüssel von GitHub — die Anleitung erscheint dann.</p>
+    <p class="adm-klein"><a href="#" id="knopf-schluessel">Zugangsschlüssel ändern oder entfernen</a> · <a href="#" id="knopf-laden">Datei herunterladen</a> (Notlösung ohne Schlüssel: bei GitHub von Hand hochladen)</p>
   </div>
 </div>
 
@@ -122,10 +147,32 @@ __SEITE__
   </div>
 </section>
 
+<dialog class="adm-dialog" id="dialog-schluessel" aria-labelledby="dialog-titel">
+  <div class="adm-dialog-innen">
+    <h2 id="dialog-titel">Zugangsschlüssel für GitHub</h2>
+    <p>Damit diese Seite Ihre Änderungen direkt veröffentlichen kann, braucht sie einmalig einen Zugangsschlüssel von GitHub. Er wird nur in diesem Browser gespeichert und darf nur die Dateien dieser einen Webseite ändern.</p>
+    <ol>
+      <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Diesen Link öffnen</a> (Sie müssen bei GitHub angemeldet sein).</li>
+      <li>Bei „Token name“ z.&nbsp;B. <strong>Admin-Seite</strong> eintragen. Bei „Expiration“ <strong>No expiration</strong> wählen (falls nicht angeboten: „Custom“ und ein Datum weit in der Zukunft).</li>
+      <li>Bei „Repository access“ <strong>Only select repositories</strong> wählen und <strong>Abbe-Technikhilfe</strong> auswählen.</li>
+      <li>Bei „Permissions“ auf „Repository permissions“ tippen und dort <strong>Contents</strong> auf <strong>Read and write</strong> stellen.</li>
+      <li>Ganz unten auf <strong>Generate token</strong> tippen, den angezeigten Schlüssel (beginnt mit <em>github_pat_</em>) kopieren und hier einfügen:</li>
+    </ol>
+    <input id="eingabe-schluessel" type="text" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Zugangsschlüssel">
+    <p class="adm-dialog-fehler" id="dialog-fehler" aria-live="polite"></p>
+    <p class="adm-dialog-vorhanden" id="dialog-vorhanden" hidden></p>
+    <div class="adm-dialog-knoepfe">
+      <button type="button" class="adm-knopf" id="dialog-abbrechen">Abbrechen</button>
+      <button type="button" class="adm-knopf adm-knopf-rot" id="dialog-entfernen" hidden>Schlüssel entfernen</button>
+      <button type="button" class="adm-knopf adm-knopf-blau" id="dialog-speichern">Schlüssel speichern</button>
+    </div>
+  </div>
+</dialog>
+
 <script>
 function h(t) {
   return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/\u00a0/g, '&nbsp;');
+    .replace(/"/g, '&quot;').replace(/ /g, '&nbsp;');
 }
 function f(t) {
   return h(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -140,7 +187,16 @@ const FELDER = __FELDER__;
 
 const VORLAGE = (w) => `__VORLAGE__`;
 
-const SPEICHER = 'abbe-admin-texte';
+/* Git-Pruefsumme der index.html, aus der diese Admin-Seite gebaut wurde.
+   GitHub meldet fuer die Datei dieselbe Pruefsumme, solange sie unveraendert ist. */
+const BASIS_SHA = '__BASIS_SHA__';
+
+const REPO = 'eliseosafadi/Abbe-Technikhilfe';
+const ZWEIG = 'main';
+const API = 'https://api.github.com/repos/' + REPO + '/contents/index.html';
+const LIVE = 'https://eliseosafadi.github.io/Abbe-Technikhilfe/';
+const SPEICHER = 'abbe-admin-stand';
+const SCHLUESSEL = 'abbe-admin-schluessel';
 const NACH_KEY = {};
 FELDER.forEach((fd) => { NACH_KEY[fd.key] = fd; });
 
@@ -187,19 +243,48 @@ function setzenFeld(key, wert) {
     if (fd.fett) el.innerHTML = f(wert); else el.textContent = wert;
   });
 }
-function speichern() {
-  try { localStorage.setItem(SPEICHER, JSON.stringify(werteAktuell())); }
+function erzeugen() { return VORLAGE(werteAktuell()); }
+
+/* Gespeicherter Stand in diesem Browser:
+   basis      - Pruefsumme der Seite, gegen die bearbeitet wurde
+   werte      - nur die tatsaechlich geaenderten Stellen
+   publiziert - Pruefsumme der zuletzt von hier veroeffentlichten Datei
+   offen      - gibt es Aenderungen, die noch nicht veroeffentlicht sind? */
+function gespeichert() {
+  let st = null;
+  try { st = JSON.parse(localStorage.getItem(SPEICHER) || 'null'); } catch (e) { st = null; }
+  if (!st || typeof st !== 'object' || !st.werte || typeof st.werte !== 'object') return null;
+  return { basis: st.basis || null, werte: st.werte, publiziert: st.publiziert || null, offen: !!st.offen };
+}
+function speichern(extra) {
+  const alt = gespeichert() || { publiziert: null };
+  const werte = {};
+  FELDER.forEach((fd) => {
+    const v = lesenFeld(fd.key);
+    if (v !== START[fd.key]) werte[fd.key] = v;
+  });
+  const st = Object.assign({ basis: BASIS_SHA, werte, publiziert: alt.publiziert, offen: true }, extra || {});
+  try { localStorage.setItem(SPEICHER, JSON.stringify(st)); }
   catch (e) { melden('Konnte nicht gespeichert werden'); }
 }
-function melden(t) {
-  const s = document.getElementById('status');
-  s.textContent = t;
-  clearTimeout(melden.timer);
-  melden.timer = setTimeout(() => {
-    s.textContent = 'Klicken Sie auf einen umrandeten Text, um ihn zu ändern.';
-  }, 3000);
+function vergessen() { try { localStorage.removeItem(SPEICHER); } catch (e) { /* egal */ } }
+function anwenden(werte) {
+  let anzahl = 0;
+  FELDER.forEach((fd) => {
+    const v = werte[fd.key];
+    if (typeof v === 'string' && v !== START[fd.key]) { setzenFeld(fd.key, v); anzahl++; }
+  });
+  return anzahl;
 }
-function erzeugen() { return VORLAGE(werteAktuell()); }
+
+const STANDARD_STATUS = 'Tippen Sie auf einen umrandeten Text, um ihn zu ändern.';
+function melden(t, halten, alsHtml) {
+  const s = document.getElementById('status');
+  if (alsHtml) s.innerHTML = t; else s.textContent = t;
+  s.classList.toggle('adm-wichtig', !!halten);
+  clearTimeout(melden.timer);
+  if (!halten) melden.timer = setTimeout(() => { s.textContent = STANDARD_STATUS; }, 3000);
+}
 
 /* Kasten mit den nicht sichtbaren Angaben aufbauen */
 (function panelBauen() {
@@ -215,15 +300,18 @@ function erzeugen() { return VORLAGE(werteAktuell()); }
 
 /* Gespeicherten Stand wiederherstellen */
 (function wiederherstellen() {
-  let gespeichert = {};
-  try { gespeichert = JSON.parse(localStorage.getItem(SPEICHER) || '{}'); }
-  catch (e) { gespeichert = {}; }
-  let anzahl = 0;
-  FELDER.forEach((fd) => {
-    const v = gespeichert[fd.key];
-    if (typeof v === 'string' && v !== START[fd.key]) { setzenFeld(fd.key, v); anzahl++; }
-  });
-  if (anzahl) melden(anzahl + ' geänderte Stelle(n) aus diesem Browser geladen');
+  const st = gespeichert();
+  if (!st) return;
+  if (!st.offen) {
+    /* Alles veroeffentlicht: Entweder steckt es schon in dieser Admin-Seite,
+       oder die Seite wurde seither anderweitig geaendert - beides: nichts mehr anwenden. */
+    if (st.publiziert === BASIS_SHA || st.basis !== BASIS_SHA) { vergessen(); return; }
+    anwenden(st.werte);
+    melden('Ihre letzte Veröffentlichung ist unterwegs — die Seite aktualisiert sich in ein bis zwei Minuten.', true);
+    return;
+  }
+  const anzahl = anwenden(st.werte);
+  if (anzahl) melden(anzahl + ' geänderte Stelle(n) aus diesem Browser geladen — noch nicht veröffentlicht.', true);
 })();
 
 const seite = document.getElementById('seite');
@@ -249,11 +337,11 @@ seite.addEventListener('input', (e) => {
     if (NACH_KEY[key].fett) z.innerHTML = f(wert); else z.textContent = wert;
   });
   speichern();
-  melden('Gespeichert (nur in diesem Browser)');
+  melden('Gemerkt — noch nicht veröffentlicht');
 });
 document.getElementById('panel').addEventListener('input', () => {
   speichern();
-  melden('Gespeichert (nur in diesem Browser)');
+  melden('Gemerkt — noch nicht veröffentlicht');
 });
 
 /* Zeilenumbrueche und formatierte Einfuegungen verhindern */
@@ -267,11 +355,160 @@ seite.addEventListener('paste', (e) => {
   document.execCommand('insertText', false, text);
 });
 
+/* ---------- Veroeffentlichen direkt bei GitHub ---------- */
+function schluessel() { try { return localStorage.getItem(SCHLUESSEL) || ''; } catch (e) { return ''; } }
+function schluesselSetzen(t) { try { localStorage.setItem(SCHLUESSEL, t); } catch (e) { melden('Der Schlüssel konnte nicht gespeichert werden', true); } }
+function schluesselEntfernen() { try { localStorage.removeItem(SCHLUESSEL); } catch (e) { /* egal */ } }
+
+function base64(text) {
+  const bytes = new TextEncoder().encode(text);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin);
+}
+function vonBase64(b64) {
+  const bin = atob(String(b64).replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+async function github(methode, url, body, token) {
+  const kopf = {
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  };
+  if (body) kopf['Content-Type'] = 'application/json';
+  const r = await fetch(url, { method: methode, cache: 'no-store', headers: kopf, body: body ? JSON.stringify(body) : undefined });
+  let daten = null;
+  try { daten = await r.json(); } catch (e) { daten = null; }
+  return { status: r.status, ok: r.ok, daten };
+}
+function nachricht() {
+  const namen = [];
+  FELDER.forEach((fd) => { if (lesenFeld(fd.key) !== START[fd.key]) namen.push(fd.label); });
+  if (!namen.length) return 'Texte über die Admin-Seite geändert';
+  const kurz = namen.slice(0, 4).join(', ') + (namen.length > 4 ? ' und ' + (namen.length - 4) + ' weitere' : '');
+  return 'Texte über die Admin-Seite geändert: ' + kurz;
+}
+
+const knopfVeroeffentlichen = document.getElementById('knopf-veroeffentlichen');
+let laeuft = false;
+
+async function veroeffentlichen() {
+  if (laeuft) return;
+  const token = schluessel();
+  if (!token) { dialogOeffnen(true); return; }
+  laeuft = true;
+  knopfVeroeffentlichen.disabled = true;
+  melden('Wird veröffentlicht …', true);
+  try {
+    const stand = gespeichert() || { publiziert: null };
+    const g = await github('GET', API + '?ref=' + ZWEIG, null, token);
+    if (g.status === 401) {
+      schluesselEntfernen();
+      dialogOeffnen(true, 'Der gespeicherte Schlüssel ist ungültig oder abgelaufen. Bitte einen neuen erstellen.');
+      melden('Schlüssel ungültig — bitte neuen Schlüssel eintragen.', true);
+      return;
+    }
+    if (!g.ok || !g.daten || !g.daten.sha) throw new Error('GitHub antwortet nicht wie erwartet (' + g.status + ')');
+    const fern = g.daten.sha;
+    if (fern !== BASIS_SHA && fern !== stand.publiziert) {
+      melden('Die Seite bei GitHub wurde zwischenzeitlich anders geändert (z. B. an einem anderen Gerät). ' +
+        'Bitte diese Admin-Seite in ein bis zwei Minuten neu laden — Ihre Änderungen bleiben erhalten — und dann erneut auf „Veröffentlichen“ tippen.', true);
+      return;
+    }
+    const inhalt = erzeugen();
+    let fernInhalt = null;
+    try { fernInhalt = typeof g.daten.content === 'string' ? vonBase64(g.daten.content) : null; } catch (e) { fernInhalt = null; }
+    if (fernInhalt === inhalt) {
+      speichern({ publiziert: fern, offen: false });
+      melden('Nichts zu veröffentlichen — die Seite ist schon auf diesem Stand.', true);
+      return;
+    }
+    const p = await github('PUT', API, { message: nachricht(), content: base64(inhalt), sha: fern, branch: ZWEIG }, token);
+    if (p.status === 401) {
+      schluesselEntfernen();
+      dialogOeffnen(true, 'Der gespeicherte Schlüssel ist ungültig oder abgelaufen. Bitte einen neuen erstellen.');
+      melden('Schlüssel ungültig — bitte neuen Schlüssel eintragen.', true);
+      return;
+    }
+    if (p.status === 403 || p.status === 404) {
+      melden('Der Schlüssel darf diese Seite nicht ändern. Beim Erstellen muss bei „Repository access“ das Repository Abbe-Technikhilfe ' +
+        'ausgewählt sein und bei „Permissions → Contents“ die Einstellung „Read and write“. Bitte einen neuen Schlüssel erstellen (Link oben).', true);
+      return;
+    }
+    if (p.status === 409) {
+      melden('GitHub meldet einen Konflikt. Bitte die Admin-Seite neu laden und es noch einmal versuchen.', true);
+      return;
+    }
+    if (!p.ok || !p.daten || !p.daten.content || !p.daten.content.sha) throw new Error('GitHub meldet Fehler ' + p.status);
+    speichern({ publiziert: p.daten.content.sha, offen: false });
+    melden('Veröffentlicht! In ein bis zwei Minuten ist die Seite aktualisiert: ' +
+      '<a href="' + LIVE + '" target="_blank" rel="noopener">' + LIVE + '</a>', true, true);
+  } catch (e) {
+    melden('Veröffentlichen hat nicht geklappt: ' + (e && e.message ? e.message : e) + ' — Besteht eine Internetverbindung? Bitte noch einmal versuchen.', true);
+  } finally {
+    laeuft = false;
+    knopfVeroeffentlichen.disabled = false;
+  }
+}
+
+/* Fenster fuer den Schluessel */
+const dialog = document.getElementById('dialog-schluessel');
+const eingabe = document.getElementById('eingabe-schluessel');
+let danachVeroeffentlichen = false;
+
+function dialogOeffnen(danach, fehler) {
+  danachVeroeffentlichen = !!danach;
+  eingabe.value = '';
+  document.getElementById('dialog-fehler').textContent = fehler || '';
+  const vorhanden = schluessel();
+  const info = document.getElementById('dialog-vorhanden');
+  const entfernen = document.getElementById('dialog-entfernen');
+  info.hidden = !vorhanden;
+  entfernen.hidden = !vorhanden;
+  if (vorhanden) info.textContent = 'Zurzeit gespeichert: ' + vorhanden.slice(0, 11) + '…' + vorhanden.slice(-4) + ' — zum Ersetzen einfach den neuen Schlüssel oben einfügen.';
+  if (typeof dialog.showModal === 'function') { if (!dialog.open) dialog.showModal(); }
+  else dialog.setAttribute('open', '');
+  eingabe.focus();
+}
+function dialogSchliessen() {
+  if (typeof dialog.close === 'function' && dialog.open) dialog.close();
+  else dialog.removeAttribute('open');
+}
+document.getElementById('dialog-abbrechen').addEventListener('click', () => { danachVeroeffentlichen = false; dialogSchliessen(); });
+document.getElementById('dialog-entfernen').addEventListener('click', () => {
+  schluesselEntfernen();
+  danachVeroeffentlichen = false;
+  dialogSchliessen();
+  melden('Schlüssel entfernt. Zum Veröffentlichen wird wieder ein Schlüssel gebraucht.', true);
+});
+document.getElementById('dialog-speichern').addEventListener('click', () => {
+  const t = eingabe.value.trim();
+  if (!t) { document.getElementById('dialog-fehler').textContent = 'Bitte zuerst den Schlüssel einfügen.'; eingabe.focus(); return; }
+  if (/\s/.test(t) || t.length < 20) { document.getElementById('dialog-fehler').textContent = 'Das sieht nicht wie ein GitHub-Schlüssel aus. Bitte den kompletten Schlüssel kopieren.'; eingabe.focus(); return; }
+  schluesselSetzen(t);
+  dialogSchliessen();
+  melden('Schlüssel gespeichert.', true);
+  if (danachVeroeffentlichen) { danachVeroeffentlichen = false; veroeffentlichen(); }
+});
+eingabe.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); document.getElementById('dialog-speichern').click(); }
+});
+dialog.addEventListener('cancel', () => { danachVeroeffentlichen = false; });
+
+document.getElementById('knopf-schluessel').addEventListener('click', (e) => { e.preventDefault(); dialogOeffnen(false); });
+knopfVeroeffentlichen.addEventListener('click', veroeffentlichen);
+
 document.getElementById('knopf-vorschau').addEventListener('click', () => {
   const b = new Blob([erzeugen()], { type: 'text/html' });
   window.open(URL.createObjectURL(b), '_blank');
 });
-document.getElementById('knopf-laden').addEventListener('click', () => {
+document.getElementById('knopf-laden').addEventListener('click', (e) => {
+  e.preventDefault();
   const b = new Blob([erzeugen()], { type: 'text/html' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(b);
@@ -279,11 +516,11 @@ document.getElementById('knopf-laden').addEventListener('click', () => {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  melden('Heruntergeladen — jetzt bei GitHub hochladen');
+  melden('Heruntergeladen — die Datei kann bei GitHub von Hand hochgeladen werden.', true);
 });
 document.getElementById('knopf-reset').addEventListener('click', () => {
-  if (confirm('Alle Änderungen verwerfen und die ursprünglichen Texte wiederherstellen?')) {
-    localStorage.removeItem(SPEICHER);
+  if (confirm('Alle noch nicht veröffentlichten Änderungen verwerfen?')) {
+    vergessen();
     location.reload();
   }
 });
