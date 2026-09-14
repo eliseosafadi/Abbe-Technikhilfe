@@ -1,0 +1,34 @@
+# Baut admin.html neu, sobald index.html sich aendert.
+# Dadurch zeigt die Admin-Seite immer die aktuellen Texte der Startseite.
+name: Admin-Seite an index.html angleichen
+
+on:
+  push:
+    branches: [main]
+    paths: ['index.html']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  angleichen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v4
+
+      - name: admin.html neu bauen
+        run: python3 werkzeuge/baue_admin.py . werkzeuge/admin_vorlage.html
+
+      - name: Aenderung uebernehmen
+        run: |
+          if git diff --quiet -- admin.html; then
+            echo "admin.html war bereits aktuell — nichts zu tun."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add admin.html
+          git commit -m "Admin-Seite an geaenderte index.html angeglichen"
+          git push
