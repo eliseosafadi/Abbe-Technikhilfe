@@ -106,7 +106,16 @@ __SEITENSTIL__
   }
   .adm-dialog input:focus { outline: 2px solid var(--blau); outline-offset: 1px; }
   .adm-dialog-fehler { color: #B3261E; font-weight: 600; min-height: 1.4em; }
-  .adm-dialog-vorhanden { color: #48484A; font-size: 14.5px; }
+  .adm-dialog-vorhanden { color: #48484A; font-size: 14.5px; margin-top: 0; }
+  .adm-dialog h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin-top: 24px; }
+  .adm-gespeichert {
+    background: var(--flaeche); border: 1px solid var(--linie);
+    border-radius: 12px; padding: 14px 16px; margin-top: 16px;
+  }
+  .adm-gespeichert .adm-dialog-knoepfe { justify-content: flex-start; margin-top: 12px; }
+  .adm-gespeichert input { font-size: 15px; }
+  .adm-gespeichert small { display: block; color: #48484A; font-size: 13.5px; margin-top: 8px; }
+  .adm-warnung { color: #48484A; font-size: 14px; margin-top: 10px; }
   .adm-dialog-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; justify-content: flex-end; }
 
   @media (max-width: 400px) {
@@ -131,7 +140,7 @@ __SEITENSTIL__
   <div class="adm-hinweis-innen">
     <p><strong>So geht’s:</strong> Umrandeten Text antippen und überschreiben, dann oben auf „Veröffentlichen“ tippen. Nach ein bis zwei Minuten ist die Seite aktualisiert.
     Beim ersten Mal fragt die Seite einmalig nach einem Zugangsschlüssel von GitHub — die Anleitung erscheint dann.</p>
-    <p class="adm-klein"><a href="#" id="knopf-schluessel">Zugangsschlüssel ändern oder entfernen</a> · <a href="#" id="knopf-laden">Datei herunterladen</a> (Notlösung ohne Schlüssel: bei GitHub von Hand hochladen)</p>
+    <p class="adm-klein"><a href="#" id="knopf-schluessel">Zugangsschlüssel anzeigen, ändern oder entfernen</a> · <a href="#" id="knopf-laden">Datei herunterladen</a> (Notlösung ohne Schlüssel: bei GitHub von Hand hochladen)</p>
   </div>
 </div>
 
@@ -150,7 +159,21 @@ __SEITE__
 <dialog class="adm-dialog" id="dialog-schluessel" aria-labelledby="dialog-titel">
   <div class="adm-dialog-innen">
     <h2 id="dialog-titel">Zugangsschlüssel für GitHub</h2>
-    <p>Damit diese Seite Ihre Änderungen direkt veröffentlichen kann, braucht sie einmalig einen Zugangsschlüssel von GitHub. Er wird nur in diesem Browser gespeichert und darf nur die Dateien dieser einen Webseite ändern.</p>
+    <p>Damit diese Seite Ihre Änderungen direkt veröffentlichen kann, braucht sie einen Zugangsschlüssel von GitHub. Er wird nur in diesem Browser gespeichert und darf nur die Dateien dieser einen Webseite ändern.</p>
+
+    <div class="adm-gespeichert" id="dialog-gespeichert" hidden>
+      <p class="adm-dialog-vorhanden" id="dialog-vorhanden"></p>
+      <div class="adm-dialog-knoepfe">
+        <button type="button" class="adm-knopf" id="knopf-zeigen">Schlüssel kopieren</button>
+        <button type="button" class="adm-knopf adm-knopf-blau" id="knopf-link">Zugangs-Link kopieren</button>
+      </div>
+      <input id="anzeige-feld" type="text" readonly hidden aria-label="Zum Kopieren">
+      <small id="anzeige-hinweis" hidden></small>
+      <p class="adm-warnung"><strong>Zugangs-Link:</strong> Speichern Sie ihn als Lesezeichen. Wenn Sie die Admin-Seite darüber öffnen, ist der Schlüssel automatisch dabei und Sie müssen ihn nie wieder eintippen. Der Link enthält den Schlüssel — geben Sie ihn niemals weiter.</p>
+    </div>
+
+    <h3>Neuen Schlüssel erstellen</h3>
+    <p class="adm-warnung">GitHub zeigt einen Schlüssel nur ein einziges Mal an. Wenn Sie ihn nicht mehr haben, erstellen Sie einfach einen neuen — der alte kann bei GitHub gelöscht werden.</p>
     <ol>
       <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Diesen Link öffnen</a> (Sie müssen bei GitHub angemeldet sein).</li>
       <li>Bei „Token name“ z.&nbsp;B. <strong>Admin-Seite</strong> eintragen. Bei „Expiration“ <strong>No expiration</strong> wählen (falls nicht angeboten: „Custom“ und ein Datum weit in der Zukunft).</li>
@@ -160,7 +183,6 @@ __SEITE__
     </ol>
     <input id="eingabe-schluessel" type="text" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Zugangsschlüssel">
     <p class="adm-dialog-fehler" id="dialog-fehler" aria-live="polite"></p>
-    <p class="adm-dialog-vorhanden" id="dialog-vorhanden" hidden></p>
     <div class="adm-dialog-knoepfe">
       <button type="button" class="adm-knopf" id="dialog-abbrechen">Abbrechen</button>
       <button type="button" class="adm-knopf adm-knopf-rot" id="dialog-entfernen" hidden>Schlüssel entfernen</button>
@@ -359,6 +381,25 @@ seite.addEventListener('paste', (e) => {
 function schluessel() { try { return localStorage.getItem(SCHLUESSEL) || ''; } catch (e) { return ''; } }
 function schluesselSetzen(t) { try { localStorage.setItem(SCHLUESSEL, t); } catch (e) { melden('Der Schlüssel konnte nicht gespeichert werden', true); } }
 function schluesselEntfernen() { try { localStorage.removeItem(SCHLUESSEL); } catch (e) { /* egal */ } }
+function maskiert(t) { return t.length > 18 ? t.slice(0, 11) + '…' + t.slice(-4) : '…' + t.slice(-4); }
+function zugangsLink() {
+  return location.href.split('#')[0].split('?')[0] + '#schluessel=' + encodeURIComponent(schluessel());
+}
+
+/* Schluessel aus dem Zugangs-Link uebernehmen. Der Teil hinter dem Rautezeichen
+   wird von keinem Browser an einen Server geschickt - er bleibt auf dem Geraet. */
+function schluesselAusLink() {
+  const treffer = /(?:^|[#&])schluessel=([^&]*)/.exec(location.hash || '');
+  if (!treffer) return false;
+  let wert = '';
+  try { wert = decodeURIComponent(treffer[1]).trim(); } catch (e) { wert = treffer[1].trim(); }
+  try { history.replaceState(null, '', location.pathname + location.search); }
+  catch (e) { location.hash = ''; }
+  if (!wert) return false;
+  schluesselSetzen(wert);
+  return true;
+}
+const vomLink = schluesselAusLink();
 
 function base64(text) {
   const bytes = new TextEncoder().encode(text);
@@ -456,6 +497,32 @@ async function veroeffentlichen() {
   }
 }
 
+/* Schluessel oder Zugangs-Link sichtbar machen und in die Zwischenablage legen */
+function zeigen(text, hinweis) {
+  const feld = document.getElementById('anzeige-feld');
+  const info = document.getElementById('anzeige-hinweis');
+  feld.value = text;
+  feld.hidden = false;
+  info.textContent = hinweis;
+  info.hidden = !hinweis;
+  try { feld.focus(); feld.setSelectionRange(0, text.length); } catch (e) { /* egal */ }
+}
+async function kopieren(text, was) {
+  if (!text) return false;
+  zeigen(text, was + ' steht im Feld oben.');
+  let ok = false;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(text); ok = true; }
+  } catch (e) { ok = false; }
+  if (!ok) { try { ok = document.execCommand('copy'); } catch (e) { ok = false; } }
+  const info = document.getElementById('anzeige-hinweis');
+  info.textContent = ok
+    ? was + ' wurde kopiert. Fügen Sie ihn jetzt an einem sicheren Ort ein, zum Beispiel in die Notizen-App.'
+    : 'Das Kopieren hat der Browser nicht erlaubt. Tippen Sie lange in das Feld oben und wählen Sie „Kopieren“.';
+  info.hidden = false;
+  return ok;
+}
+
 /* Fenster fuer den Schluessel */
 const dialog = document.getElementById('dialog-schluessel');
 const eingabe = document.getElementById('eingabe-schluessel');
@@ -466,14 +533,19 @@ function dialogOeffnen(danach, fehler) {
   eingabe.value = '';
   document.getElementById('dialog-fehler').textContent = fehler || '';
   const vorhanden = schluessel();
-  const info = document.getElementById('dialog-vorhanden');
-  const entfernen = document.getElementById('dialog-entfernen');
-  info.hidden = !vorhanden;
-  entfernen.hidden = !vorhanden;
-  if (vorhanden) info.textContent = 'Zurzeit gespeichert: ' + vorhanden.slice(0, 11) + '…' + vorhanden.slice(-4) + ' — zum Ersetzen einfach den neuen Schlüssel oben einfügen.';
+  document.getElementById('dialog-gespeichert').hidden = !vorhanden;
+  document.getElementById('dialog-entfernen').hidden = !vorhanden;
+  const feld = document.getElementById('anzeige-feld');
+  const info = document.getElementById('anzeige-hinweis');
+  feld.hidden = true; feld.value = '';
+  info.hidden = true; info.textContent = '';
+  if (vorhanden) {
+    document.getElementById('dialog-vorhanden').textContent =
+      'In diesem Browser gespeichert: ' + maskiert(vorhanden);
+  }
   if (typeof dialog.showModal === 'function') { if (!dialog.open) dialog.showModal(); }
   else dialog.setAttribute('open', '');
-  eingabe.focus();
+  if (!vorhanden) eingabe.focus();
 }
 function dialogSchliessen() {
   if (typeof dialog.close === 'function' && dialog.open) dialog.close();
@@ -500,6 +572,8 @@ eingabe.addEventListener('keydown', (e) => {
 });
 dialog.addEventListener('cancel', () => { danachVeroeffentlichen = false; });
 
+document.getElementById('knopf-zeigen').addEventListener('click', () => { kopieren(schluessel(), 'Der Schlüssel'); });
+document.getElementById('knopf-link').addEventListener('click', () => { kopieren(zugangsLink(), 'Der Zugangs-Link'); });
 document.getElementById('knopf-schluessel').addEventListener('click', (e) => { e.preventDefault(); dialogOeffnen(false); });
 knopfVeroeffentlichen.addEventListener('click', veroeffentlichen);
 
@@ -518,6 +592,20 @@ document.getElementById('knopf-laden').addEventListener('click', (e) => {
   a.remove();
   melden('Heruntergeladen — die Datei kann bei GitHub von Hand hochgeladen werden.', true);
 });
+/* Wird das Lesezeichen angetippt, waehrend die Seite schon offen ist, laedt der
+   Browser sie nicht neu - dann wird der Schluessel hier nachtraeglich uebernommen. */
+window.addEventListener('hashchange', () => {
+  if (!schluesselAusLink()) return;
+  const weiter = danachVeroeffentlichen;
+  danachVeroeffentlichen = false;
+  if (dialog.open) dialogSchliessen();
+  melden('Zugangsschlüssel aus Ihrem Lesezeichen übernommen — Sie können sofort veröffentlichen.', true);
+  if (weiter) veroeffentlichen();
+});
+
+if (vomLink && !document.getElementById('status').classList.contains('adm-wichtig')) {
+  melden('Zugangsschlüssel aus Ihrem Lesezeichen übernommen — Sie können sofort veröffentlichen.', true);
+}
 document.getElementById('knopf-reset').addEventListener('click', () => {
   if (confirm('Alle noch nicht veröffentlichten Änderungen verwerfen?')) {
     vergessen();
