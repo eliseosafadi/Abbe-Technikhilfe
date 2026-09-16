@@ -21,6 +21,21 @@ koerper = re.search(r"<body>(.*)</body>", html, re.S).group(1).strip()
 
 felder, werte = [], {}
 
+# In der Vorlage stehen an den Fundstellen bereits Platzhalter wie ${h(w.telefon_link)}.
+# Der Admin-Text (koerper) enthaelt dagegen weiterhin den urspruenglichen Text.
+# Diese Tabelle uebersetzt zurueck, damit Umgebungen, die einen schon ersetzten
+# Text enthalten (z. B. die Anruf-Knoepfe), auch im Admin-Text gefunden werden.
+ersetzungen = {}
+
+def fuer_koerper(t):
+    for platzhalter, original in ersetzungen.items():
+        t = t.replace(platzhalter, original)
+    return t
+
+def merken(key, text):
+    ersetzungen["${h(w.%s)}" % key] = text
+    ersetzungen["${f(w.%s)}" % key] = text
+
 def unescape(t):
     return t.replace("&nbsp;", " ").replace("&amp;", "&")
 
@@ -53,6 +68,7 @@ def reihe(eintraege, praefix, suffix, fett=False, inline=False, sichtbar=True, g
     for (key, label, hilfe), text in zip(eintraege, treffer):
         pruefe(key, text)
         eintragen(key, label, text, fett, hilfe, sichtbar, gruppe)
+        merken(key, text)
 
     zaehler = {"i": 0}
     def ersetze_vorlage(m):
@@ -62,11 +78,16 @@ def reihe(eintraege, praefix, suffix, fett=False, inline=False, sichtbar=True, g
     rumpf = muster.sub(ersetze_vorlage, rumpf)
 
     if sichtbar:
+        p_k, s_k = fuer_koerper(praefix), fuer_koerper(suffix)
+        muster_k = re.compile(re.escape(p_k) + r"(.*?)" + re.escape(s_k), re.S)
         z2 = {"i": 0}
         def ersetze_admin(m):
             key, label, _ = eintraege[z2["i"]]; z2["i"] += 1
-            return praefix + spanne(key, label, m.group(1), fett, inline) + suffix
-        koerper = muster.sub(ersetze_admin, koerper)
+            return p_k + spanne(key, label, m.group(1), fett, inline) + s_k
+        koerper, anzahl_k = muster_k.subn(ersetze_admin, koerper)
+        if anzahl_k != len(eintraege):
+            raise SystemExit(f"FEHLER: {[e[0] for e in eintraege]} im Admin-Text "
+                             f"{anzahl_k}x statt {len(eintraege)}x gefunden.")
 
 def feld(key, label, praefix, suffix, fett=False, inline=False, hilfe=None,
          anzahl=1, sichtbar=True, gruppe=None):
@@ -83,8 +104,15 @@ def feld(key, label, praefix, suffix, fett=False, inline=False, hilfe=None,
     slot = f"${{f(w.{key})}}" if fett else f"${{h(w.{key})}}"
     rumpf = muster.sub(lambda m: praefix + slot + suffix, rumpf)
     if sichtbar:
-        koerper = muster.sub(lambda m: praefix + spanne(key, label, text, fett, inline) + suffix, koerper)
+        p_k, s_k = fuer_koerper(praefix), fuer_koerper(suffix)
+        muster_k = re.compile(re.escape(p_k) + r"(.*?)" + re.escape(s_k), re.S)
+        koerper, anzahl_k = muster_k.subn(
+            lambda m: p_k + spanne(key, label, text, fett, inline) + s_k, koerper)
+        if anzahl_k != anzahl:
+            raise SystemExit(f"FEHLER: '{key}' im Admin-Text {anzahl_k}x statt {anzahl}x gefunden.\n"
+                             f"  Kontext: {p_k[-50:]!r} ... {s_k[:30]!r}")
     eintragen(key, label, text, fett, hilfe, sichtbar, gruppe)
+    merken(key, text)
 
 KASTEN = "Nicht sichtbare Angaben"
 
@@ -104,6 +132,7 @@ def email_feld():
     koerper = muster.sub(lambda m: 'href="mailto:' + adresse + '">'
                          + spanne("email", label, adresse, False, True) + '</a>', koerper)
     eintragen("email", label, adresse, False, "Wird als Link und als sichtbarer Text verwendet.", True, None)
+    merken("email", adresse)
 
 # --- Kopf & Navigation ---
 feld("marke", "Name in der Leiste", '<span class="marke">', '</span>', inline=True)
@@ -153,6 +182,13 @@ for key, label, pre, suf, hilfe in [
     ("adresse_daten", "Anschrift für Suchmaschinen", '"streetAddress": "', '"', None),
     ("preisspanne", "Preisspanne für Suchmaschinen", '"priceRange": "', '"', None)]:
     feld(key, label, pre, suf, hilfe=hilfe, sichtbar=False, gruppe=KASTEN)
+
+# Schlusskontrolle: Jedes sichtbare Feld muss im Admin-Text auch wirklich
+# als anklickbare Stelle vorkommen, sonst laesst es sich dort nicht aendern.
+fehlend = [f["key"] for f in felder
+           if f["sichtbar"] and f'data-key="{f["key"]}"' not in koerper]
+if fehlend:
+    raise SystemExit(f"FEHLER: im Admin-Text nicht bearbeitbar: {fehlend}")
 
 vorlage = kopf + rumpf
 for z in ("`", "\\"):

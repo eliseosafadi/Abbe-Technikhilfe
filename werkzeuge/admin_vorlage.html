@@ -49,6 +49,13 @@ __SEITENSTIL__
   /* Die echte Seite darunter - Navigation nicht klebend, damit nur eine Leiste klebt */
   .adm-seite .leiste { position: static; }
 
+  /* In der Vorschau sind Links keine Links mehr (siehe Skript weiter unten).
+     Auf Tablets und Handys muss der Text darin trotzdem anfassbar sein. */
+  .adm-seite a {
+    -webkit-user-select: text; user-select: text;
+    -webkit-touch-callout: none;
+  }
+
   /* Umrandete, bearbeitbare Textstellen */
   .bearbeitbar {
     outline: 1px dashed #9B9BA1;
@@ -338,8 +345,15 @@ function melden(t, halten, alsHtml) {
 
 const seite = document.getElementById('seite');
 
-/* Links im Vorschaubereich fuehren nirgendwohin - hier wird nur bearbeitet */
-seite.querySelectorAll('a').forEach((a) => { a.draggable = false; });
+/* In der Vorschau werden die Links entschaerft: Auf iPad und iPhone laesst sich
+   Text, der in einem Link steckt (zum Beispiel im blauen Anruf-Knopf), sonst
+   nicht antippen und aendern. Fuer die fertige Seite spielt das keine Rolle -
+   die Adressen der Links stammen aus den Feldern, nicht aus dieser Vorschau. */
+seite.querySelectorAll('a[href]').forEach((a) => {
+  a.dataset.ziel = a.getAttribute('href');
+  a.removeAttribute('href');
+  a.draggable = false;
+});
 seite.addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (a) e.preventDefault();

@@ -238,6 +238,13 @@
   /* Die echte Seite darunter - Navigation nicht klebend, damit nur eine Leiste klebt */
   .adm-seite .leiste { position: static; }
 
+  /* In der Vorschau sind Links keine Links mehr (siehe Skript weiter unten).
+     Auf Tablets und Handys muss der Text darin trotzdem anfassbar sein. */
+  .adm-seite a {
+    -webkit-user-select: text; user-select: text;
+    -webkit-touch-callout: none;
+  }
+
   /* Umrandete, bearbeitbare Textstellen */
   .bearbeitbar {
     outline: 1px dashed #9B9BA1;
@@ -337,7 +344,7 @@
 <nav class="leiste">
   <div class="leiste-innen">
     <span class="marke"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="marke" data-fett="0" role="textbox" tabindex="0" title="Name in der Leiste — zum Ändern anklicken">Technikhilfe Abbe</span></span>
-    <a class="pille-klein" href="tel:045158343216">Anrufen</a>
+    <a class="pille-klein" href="tel:045158343216"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="nav_knopf" data-fett="0" role="textbox" tabindex="0" title="Knopf in der Leiste — zum Ändern anklicken">Anrufen</span></a>
   </div>
 </nav>
 
@@ -346,7 +353,7 @@
     <p class="vorzeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="vorzeile" data-fett="0" role="textbox" tabindex="0" title="Kleine blaue Zeile — zum Ändern anklicken">Technikhilfe zuhause · Lübeck &amp; Umgebung</span></p>
     <h1><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="ueberschrift" data-fett="0" role="textbox" tabindex="0" title="Große Überschrift — zum Ändern anklicken">Hilfe bei Handy, Computer &amp; Internet — bei Ihnen zuhause.</span></h1>
     <p class="held-sub"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="unterzeile" data-fett="0" role="textbox" tabindex="0" title="Text unter der Überschrift — zum Ändern anklicken">Mein Name ist Eliseo Abbe. Ich helfe geduldig vorort bei allem, was mit Technik zu tun hat. Ohne Fachbegriffe, ohne Zeitdruck — Sie bestimmen das Tempo.</span></p>
-    <div class="aktion"><a class="pille" href="tel:045158343216">Anrufen: [0451-NUMMER]</a></div>
+    <div class="aktion"><a class="pille" href="tel:045158343216"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a></div>
     <p class="hinweis"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="hinweis" data-fett="0" role="textbox" tabindex="0" title="Zeile unter dem Anruf-Knopf — zum Ändern anklicken">Montag bis Samstag zwischen 08:00-18:00 Uhr erreichbar. Wenn ich gerade bei einem Termin bin, rufe ich zeitnah zurück.</span></p>
   </div>
 </header>
@@ -404,7 +411,7 @@
         <p><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="preis_text" data-fett="1" role="textbox" tabindex="0" title="Preistext — zum Ändern anklicken">Ein Besuch (bis 60 Minuten) kostet <strong>39 Euro</strong>, dazu kommt eine Anfahrtspauschale von <strong>5 Euro</strong> innerhalb Lübecks bzw. <strong>10 Euro</strong> im Umland (z. B. Travemünde, Bad Schwartau). Keine Vertragsbindung, keine versteckten Kosten, kein Cent mehr als vereinbart. Sie zahlen, wie es Ihnen lieber ist: in bar oder bequem per Rechnung. <strong>Und wenn ich Ihr Problem nicht lösen kann, kostet Sie der Besuch nichts.</strong></span></p>
       </div>
       <!-- Bewusst KEIN Abo-Modell auf der Seite — kommt evtl. später nach dem Markttest. -->
-      <div class="aktion"><a class="pille" href="tel:045158343216">Anrufen: [0451-NUMMER]</a></div>
+      <div class="aktion"><a class="pille" href="tel:045158343216"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a></div>
     </div>
   </section>
 
@@ -459,7 +466,7 @@
 
 <footer>
   <div class="buehne">
-    <a class="pille" href="tel:045158343216">Anrufen: [0451-NUMMER]</a>
+    <a class="pille" href="tel:045158343216"><span class="bearbeitbar" contenteditable="true" spellcheck="false" data-key="knopf_text" data-fett="0" role="textbox" tabindex="0" title="Anruf-Knopf (alle drei zugleich) — zum Ändern anklicken">Anrufen: [0451-NUMMER]</span></a>
     <p class="fusszeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="fuss_zeile1" data-fett="0" role="textbox" tabindex="0" title="Erste Fußzeile — zum Ändern anklicken">Abbe Technikhilfe · Inhaber: Eliseo Abbe · [ADRESSE] · Telefon [0451-NUMMER] · technikhilfeabbe@gmail.com</span></p>
     <p class="fusszeile"><span class="bearbeitbar adm-block" contenteditable="true" spellcheck="false" data-key="fuss_zeile2" data-fett="0" role="textbox" tabindex="0" title="Zweite Fußzeile — zum Ändern anklicken">Einzugsgebiet: Lübeck, Travemünde, Bad Schwartau und Umgebung</span></p>
     <p class="fusslinks"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
@@ -1072,8 +1079,15 @@ function melden(t, halten, alsHtml) {
 
 const seite = document.getElementById('seite');
 
-/* Links im Vorschaubereich fuehren nirgendwohin - hier wird nur bearbeitet */
-seite.querySelectorAll('a').forEach((a) => { a.draggable = false; });
+/* In der Vorschau werden die Links entschaerft: Auf iPad und iPhone laesst sich
+   Text, der in einem Link steckt (zum Beispiel im blauen Anruf-Knopf), sonst
+   nicht antippen und aendern. Fuer die fertige Seite spielt das keine Rolle -
+   die Adressen der Links stammen aus den Feldern, nicht aus dieser Vorschau. */
+seite.querySelectorAll('a[href]').forEach((a) => {
+  a.dataset.ziel = a.getAttribute('href');
+  a.removeAttribute('href');
+  a.draggable = false;
+});
 seite.addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (a) e.preventDefault();
